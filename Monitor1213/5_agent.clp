@@ -89,7 +89,7 @@
         ?f <-   (status (step 0))
         =>
         (assert (exec (action go-forward) (step 0)))
-        (assert (dummy_target (pos-x 10) (pos-y 7)))
+        (assert (dummy_target (pos-x 4) (pos-y 10)))
         (assert (nearest-gate (pos-x 100) (pos-y 100)))
 )
 
@@ -175,7 +175,7 @@
                     (status (step ?s))
                     (dummy_target (pos-x ?x) (pos-y ?y))
                     (perc-vision (step ?s) (pos-r ?r) (pos-c ?c) 
-                    (direction north) (perc2 urban | rural | water | gate))
+                    (direction west) (perc2 urban | rural | water | gate))
                     (test (> ?c ?y))
                     
                     =>
@@ -187,7 +187,7 @@
                     (status (step ?s))
                     (dummy_target (pos-x ?x) (pos-y ?y))
                     (perc-vision (step ?s) (pos-r ?r) (pos-c ?c)
-                    (direction north) (perc6 urban | rural | water | gate))
+                    (direction west) (perc6 urban | rural | water | gate))
                     (test (< ?r ?x))
                     =>
                     (assert (exec (action go-right) (step ?s)))
@@ -198,7 +198,7 @@
                     (status (step ?s))
                     (dummy_target (pos-x ?x) (pos-y ?y))
                     (perc-vision (step ?s) (pos-r ?r) (pos-c ?c) 
-                    (direction north) (perc4 urban | rural | water | gate))
+                    (direction west) (perc4 urban | rural | water | gate))
                     (test (> ?r ?x))
                     =>
                     (assert (exec (action go-left) (step ?s)))
@@ -209,7 +209,7 @@
                     (status (step ?s))
                     (dummy_target (pos-x ?x) (pos-y ?y))
                     (perc-vision (step ?s) (pos-r ?r) (pos-c ?c)
-                    (direction north) (perc2 hill | border)
+                    (direction west) (perc2 hill | border)
                     (perc4 urban | rural | water | gate)
                     (perc6 hill | border))
                     (test (< ?r ?x))
@@ -223,11 +223,106 @@
                     (status (step ?s))
                     (dummy_target (pos-x ?x) (pos-y ?y))
                     (perc-vision (step ?s) (pos-r ?r) (pos-c ?c)
-                    (direction north) (perc2 hill | border)
+                    (direction west) (perc2 hill | border)
                     (perc4 hill | border)
                     (perc6 urban | rural | water | gate))
                     (test (> ?r ?x))
                     (test (> ?c ?y))
+                    =>
+                    (assert (exec (action go-right) (step ?s)))
+)
+
+;regole per tornare indietro
+(defrule dummy_move_to_target_west_4a
+                    ;(declare (salience 10))
+                    (status (step ?s))
+                    (dummy_target (pos-x ?x) (pos-y ?y))
+                    (perc-vision (step ?s) (pos-r ?r) (pos-c ?c)
+                    (direction west) (perc2 hill | border)
+                    (perc4 hill | border)
+                    (perc6 urban | rural | water | gate))
+                    (test (> ?r ?x))
+                    (test (< ?c ?y))
+                    =>
+                    (assert (exec (action go-left) (step ?s)))
+)
+
+(defrule dummy_move_to_target_west_4b
+                    ;(declare (salience 10))
+                    (status (step ?s))
+                    (dummy_target (pos-x ?x) (pos-y ?y))
+                    (perc-vision (step ?s) (pos-r ?r) (pos-c ?c)
+                    (direction west) (perc2 hill | border)
+                    (perc4 hill | border)
+                    (perc6 urban | rural | water | gate))
+                    (test (< ?r ?x))
+                    (test (< ?c ?y))
+                    =>
+                    (assert (exec (action go-right) (step ?s)))
+)
+
+;*******************************************************************
+;**** Regole per muovere verso il terget con UAV rivolto a est ****
+;*******************************************************************
+
+(defrule dummy_move_to_target_east_1
+                    ;(declare (salience 20))
+                    (status (step ?s))
+                    (dummy_target (pos-x ?x) (pos-y ?y))
+                    (perc-vision (step ?s) (pos-r ?r) (pos-c ?c) 
+                    (direction east) (perc2 urban | rural | water | gate))
+                    (test (< ?c ?y))
+                    
+                    =>
+                    (assert (exec (action go-forward) (step ?s)))
+)
+
+(defrule dummy_move_to_target_east_2a
+                    ;(declare (salience 15))
+                    (status (step ?s))
+                    (dummy_target (pos-x ?x) (pos-y ?y))
+                    (perc-vision (step ?s) (pos-r ?r) (pos-c ?c)
+                    (direction east) (perc6 urban | rural | water | gate))
+                    (test (> ?r ?x))
+                    =>
+                    (assert (exec (action go-right) (step ?s)))
+)
+
+(defrule dummy_move_to_target_east_2b
+                    ;(declare (salience 15))
+                    (status (step ?s))
+                    (dummy_target (pos-x ?x) (pos-y ?y))
+                    (perc-vision (step ?s) (pos-r ?r) (pos-c ?c) 
+                    (direction east) (perc4 urban | rural | water | gate))
+                    (test (< ?r ?x))
+                    =>
+                    (assert (exec (action go-left) (step ?s)))
+)
+
+(defrule dummy_move_to_target_west_3a
+                    ;(declare (salience 10))
+                    (status (step ?s))
+                    (dummy_target (pos-x ?x) (pos-y ?y))
+                    (perc-vision (step ?s) (pos-r ?r) (pos-c ?c)
+                    (direction east) (perc2 hill | border)
+                    (perc4 urban | rural | water | gate)
+                    (perc6 hill | border))
+                    (test (> ?r ?x))
+                    (test (< ?c ?y))
+                    =>
+                    (assert (exec (action go-left) (step ?s)))
+)
+
+(defrule dummy_move_to_target_west_3b
+                    ;(declare (salience 10))
+                    (status (step ?s))
+                    (dummy_target (pos-x ?x) (pos-y ?y))
+                    (perc-vision (step ?s) (pos-r ?r) (pos-c ?c)
+                    (direction east) (perc2 hill | border)
+                    (perc4 hill | border)
+                    (perc6 urban | rural | water | gate))
+                    (test (> ?r ?x))
+                    (test (< ?c ?y))
                     =>
                     (assert (exec (action go-right) (step ?s)))
 )
