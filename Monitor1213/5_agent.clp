@@ -90,7 +90,7 @@
         =>
         (assert (exec (action go-forward) (step 0)))
         (assert (dummy_target (pos-x 7) (pos-y 11)))
-        (assert (nearest-gate (pos-x 100) (pos-y 100)))
+        (assert (nearest_gate (pos-x 100) (pos-y 100)))
 )
 
 (defrule turno1   
@@ -480,28 +480,22 @@
                     (assert (exec (action go-right) (step ?s)))
 )
 
-(defrule nearest_gate
-                    (status (time ?time) (step ?s))
-                    (maxduration ?maxdur)
-?f2 <-              (dummy_target (pos-x ?x3) (pos-y ?y3))
-                    (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
-                    (prior_cell (pos-r ?x1) (pos-c ?y1) (type gate))
-                    ;qua serve avere uno (o più) stato nella kb che identifica l'azione
-                    ;che verrà eseguita al passo successivo, nel quale deve essere esplicitata
-                    ;la durata dell'azione (da legare alla variabile k)
-                    ;test < ?time ?maxdur non basta. Bisogna sommare a time il tempo per raggiungere il gate
-                    ;Per il momento implementiamo una versione più semplice della regola
-?f1 <-              (nearest-gate (pos-x ?x2) (pos-y ?y2))
-                    (test (neq ?x1 ?r))
-                    (test (neq ?y1 ?c))
-                    (test   (< 
-                                (+ (abs (- ?x1 ?r)) (abs (- ?y1 ?c))) 
-                                (+ (abs (- ?x2 ?r)) (abs (- ?y2 ?c))) 
-                            ) 
-                    )
-                   
-                    =>
-                    (assert ciao)
-                    (modify ?f1 (pos-x ?x1) (pos-y ?y1))
-                    (modify ?f2 (pos-x ?x1) (pos-y ?y1))
+(defrule nearest_gate_rule
+                        (status (time ?time) (step ?s))
+                        (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
+                        (maxduration ?maxdur)
+    ?f2 <-              (dummy_target (pos-x ?x3) (pos-y ?y3))
+                        (prior_cell (pos-r ?x1) (pos-c ?y1) (type gate))
+    ?f1 <-              (nearest_gate (pos-x ?x2) (pos-y ?y2))
+                        ;       (test (neq ?x1 ?r))
+                        ;       (test (neq ?y1 ?c))
+                        ;       (test   (< 
+                        ;                   (+ (abs (- ?x1 ?r)) (abs (- ?y1 ?c))) 
+                        ;                   (+ (abs (- ?x2 ?r)) (abs (- ?y2 ?c))) 
+                        ;               ) 
+                        ;       )
+                        =>
+                        (assert (ciao))
+                        ;(modify ?f1 (pos-x ?x1) (pos-y ?y1))
+                        ;(modify ?f2 (pos-x ?x1) (pos-y ?y1))
 )

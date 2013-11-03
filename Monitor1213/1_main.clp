@@ -20,7 +20,7 @@
 			(slot pos-y)
 )
 
-(deftemplate nearest-gate 
+(deftemplate nearest_gate 
                         (slot pos-x) 
                         (slot pos-y)
 )
