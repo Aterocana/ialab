@@ -21,8 +21,8 @@
 )
 
 (deftemplate nearest_gate 
-                        (slot pos-x) 
-                        (slot pos-y)
+			(slot pos-x) 
+			(slot pos-y)
 )
 
 
