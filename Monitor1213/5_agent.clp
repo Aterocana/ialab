@@ -485,16 +485,19 @@
 ;******************************************************
 
 (defrule nearest_gate
+                        (declare (salience 10))
                         (status (time ?time) (step ?s))
                         (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
                         (maxduration ?maxdur)
     ?f2 <-              (dummy_target (pos-x ?x3) (pos-y ?y3))
                         (prior_cell (pos-r ?x1) (pos-c ?y1) (type gate))
     ?f1 <-              (nearest_gate (pos-x ?x2) (pos-y ?y2))
-                        (test (<> ?x1 ?r))
-                        (test (<> ?y1 ?c))
+                        (or
+                            (test (<> ?x1 ?r))
+                            (test (<> ?y1 ?c))
+                        )
                         (test   (< 
-									(+ (abs (- ?x1 ?r)) (abs (- ?y1 ?c))) 
+                                    (+ (abs (- ?x1 ?r)) (abs (- ?y1 ?c))) 
                                     (+ (abs (- ?x2 ?r)) (abs (- ?y2 ?c))) 
                                 ) 
                         )
