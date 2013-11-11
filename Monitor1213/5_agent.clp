@@ -503,8 +503,8 @@
                         )
                         =>
                         (assert (ciao))
-                        (modify ?f1 (pos-x ?x1) (pos-y ?y1))
-                        (modify ?f2 (pos-x ?x1) (pos-y ?y1))
+                        ;(modify ?f1 (pos-x ?x1) (pos-y ?y1))
+                        ;(modify ?f2 (pos-x ?x1) (pos-y ?y1))
 )
 
 (defrule dummy_inform_2_water
