@@ -492,33 +492,32 @@
     ?f2 <-              (dummy_target (pos-x ?x3) (pos-y ?y3))
                         (prior_cell (pos-r ?x1) (pos-c ?y1) (type gate))
     ?f1 <-              (nearest_gate (pos-x ?x2) (pos-y ?y2))
-                        (or
-                            (test (<> ?x1 ?r))
-                            (test (<> ?y1 ?c))
-                        )
                         (test   (< 
                                     (+ (abs (- ?x1 ?r)) (abs (- ?y1 ?c))) 
                                     (+ (abs (- ?x2 ?r)) (abs (- ?y2 ?c))) 
                                 ) 
                         )
                         =>
-                        (assert (ciao))
-                        ;(modify ?f1 (pos-x ?x1) (pos-y ?y1))
+                        ;(assert (ciao))
+                        (modify ?f1 (pos-x ?x1) (pos-y ?y1))
                         ;(modify ?f2 (pos-x ?x1) (pos-y ?y1))
 )
 
 (defrule dummy_inform_2_water
 		(status (step ?s))
-		;(perc-vision (step ?s) (pos-r ?r) (pos-c ?c) (perc2 water))
-		(prior_cell (pos-r ?r) (pos-c ?c) (type rural | urban))
+		(perc-vision (step ?s) (pos-r ?r) (pos-c ?c) (perc2 water))
+		(prior_cell (pos-r (+ ?r 1) (pos-c ?c) (type rural | urban))
 		=>
-		(assert (exec (action go-forward) (?r) (?c) (flood) (step ?s)))
+		(assert (exec (action inform) (+ ?r 1) (?c) (flood) (step ?s)))
 )
 
+;Controllo che la cella davanti all'UAV non sia cambiata rispetto alla sua
+;conoscenza apriori. Se l'agente è rivolto verso nord, la cella davanti a lui
+;sarà ((r + 1), c)
 (defrule dummy_inform_2_ok
 		(status (step ?s))
-		;(perc-vision (step ?s) (pos-r ?r) (pos-c ?c) (perc2 ?state))
-		(prior_cell (pos-r ?r) (pos-c ?c) (type ?state))
+		(perc-vision (step ?s) (pos-r ?r) (pos-c ?c) (perc2 ?state))
+		(prior_cell (pos-r (+ ?r 1) (pos-c ?c) (type ?state))
 		=>
-		(assert (exec (action go-forward) (?r) (?c) (ok) (step ?s)))
+		(assert (exec (action inform) (+ ?r 1) (?c) (ok) (step ?s)))
 )
