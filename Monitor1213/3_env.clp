@@ -10,7 +10,10 @@
                   (slot pos-r)
                   (slot pos-c)
                   (slot type (allowed-values urban rural lake hill gate border))
-                  (slot actual (allowed-values ok  initial-flood severe-flood)))
+                  (slot actual (allowed-values ok  initial-flood severe-flood))
+;;AGGIUNTE
+                  (slot rel_score)
+)
 
 (deftemplate agentstatus 
            (slot time) 

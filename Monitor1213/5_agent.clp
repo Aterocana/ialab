@@ -89,7 +89,7 @@
         ?f <-   (status (step 0))
         =>
         (assert (exec (action go-forward) (step 0)))
-        (assert (dummy_target (pos-x 7) (pos-y 11)))
+        (assert (dummy_target (pos-x 10) (pos-y 7)))
         (assert (nearest_gate (pos-x 50) (pos-y 50)))
 )
 

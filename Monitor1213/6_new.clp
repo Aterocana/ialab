@@ -2,7 +2,7 @@
 
 ;Ci serve alreadyclosed????
 (defrule check-closed
-		(declare (salience 50)) 
+		(declare (salience 50))
 ?f1 <-  (newnode (ident ?id) (pos-r ?r) (pos-c ?c))
 		(node (ident ?old) (pos-r ?r) (pos-c ?c) (open no))
 		;?f2 <-    (alreadyclosed ?a)

@@ -8,10 +8,14 @@
 (deftemplate exec
       (slot step) 
       (slot action 
-      (allowed-values go-forward go-left go-right loiter loiter-monitoring inform done))
+        (allowed-values go-forward go-left go-right loiter loiter-monitoring inform done)
+      )
       (slot param1)
       (slot param2)
-      (slot param3 (allowed-values ok flood initial-flood severe-flood)))
+      (slot param3 
+        (allowed-values ok flood initial-flood severe-flood)
+      )
+)
 	  
 	  
 ;; ***** LE NOSTRE MODIFICHE *****
@@ -87,7 +91,11 @@
 (deftemplate prior_cell 
 	(slot pos-r)
 	(slot pos-c)
-	(slot type (allowed-values urban rural lake hill gate border)))
+	(slot type (allowed-values urban rural lake hill gate border))
+;;AGGIUNTE NOSTRE
+    (slot val)
+    (slot abs_score)	
+)
 
 ;;  questo template serve solo per avere una struttura per asserire lo stato iniziale dell'agente
 ;;  L'informazione deve essere messa nel file 2_initial_map.clp
@@ -102,7 +110,7 @@
     ?f<-   (create) =>
            (assert (create-actual-map) (create-initial-setting) (create-discovered))  
            (retract ?f)
-           (focus ENV))        
+           (focus ENV))
 
 ;; SI PASSA AL MODULO AGENT SE NON  E' ESAURITO IL TEMPO (indicato da maxduration)
 (defrule go-on-agent
