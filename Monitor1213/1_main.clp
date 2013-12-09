@@ -94,7 +94,8 @@
 	(slot type (allowed-values urban rural lake hill gate border))
 ;;AGGIUNTE NOSTRE
     (slot val)
-    (slot abs_score)	
+    (slot abs_score)
+	(slot rel_score)	
 )
 
 ;;  questo template serve solo per avere una struttura per asserire lo stato iniziale dell'agente
