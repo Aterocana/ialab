@@ -36,5 +36,5 @@
 	(status (step ?s)) ;; mi serve capire quale sia lo step attuale per poter aggiornare solo gli absolute score obsoleti (del passo precedente)
     ?cella <- (prior_cell (pos-r ?x) (pos-c ?y) (abs_score ?abs) (not (step ?s))) ;;verificare l'operatore NOT
     =>
-    ;; MOLTIPLICARE ?abs PER 1/DISTANZA (USARE MANHATTAN COME VALORE DI DISTANZA)
+    ;; MOLTIPLICARE ?abs PER 1/DISTANZA (USARE MANHATTAN COME VALORE DI DISTANZA), AGGIORNARE abs_step a ?s
 )

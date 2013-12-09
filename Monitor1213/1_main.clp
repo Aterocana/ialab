@@ -95,7 +95,8 @@
 ;;AGGIUNTE NOSTRE
     (slot val)
     (slot abs_score)
-	(slot rel_score)	
+	(slot rel_score)
+	(slot abs_step)
 )
 
 ;;  questo template serve solo per avere una struttura per asserire lo stato iniziale dell'agente
