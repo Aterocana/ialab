@@ -89,14 +89,14 @@
 ;; degli eventi meteorologici che sono causa dell’esondazione. 
 ;; Questa  conoscenza a priori è definita nel MAIN e quindi è accessibile anche all’agente.
 (deftemplate prior_cell 
-	(slot pos-r)
-	(slot pos-c)
-	(slot type (allowed-values urban rural lake hill gate border))
+    (slot pos-r)
+    (slot pos-c)
+    (slot type (allowed-values urban rural lake hill gate border))
 ;;AGGIUNTE NOSTRE
     (slot val)
     (slot abs_score)
-	(slot rel_score)
-	(slot abs_step)
+    (slot rel_score)
+    (slot abs_step)
 )
 
 ;;  questo template serve solo per avere una struttura per asserire lo stato iniziale dell'agente
