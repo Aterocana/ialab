@@ -26,6 +26,7 @@ public class ClipsCore {
             clips.load("5_agent.clp");
             String extensionsPath = "extensions" + File.separator + "regolaHalt.clp";
             clips.load(extensionsPath);
+            clips.load("7_punteggi.clp");
             clips.load("6_new.clp");
             router = new RouterDialog("routerCore");
             clips.addRouter(router);

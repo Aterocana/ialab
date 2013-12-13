@@ -1,49 +1,47 @@
-;;(defmodule PUNTEGGI (import MAIN ?ALL)(export ?ALL)) vedere import ed export
+(defmodule PUNTEGGI (import AGENT ?ALL) (export ?ALL))
 
 ;; INIZIALIZZAZIONE
 (defrule init_border_cell
-    ?cella <- (prior_cell (pos-r ?x) (pos-c ?y) (type border) (val UNDEFINED)) ;;controllare come si fa UNDEFINED o, eventualmente, dare un valore fuffa
+    ?cella <- (prior_cell (pos-r ?x) (pos-c ?y) (type border) (val nil))
     =>
     (modify ?cella (val -100))
 )
 
 (defrule init_gate_cell
-    ?cella <- (prior cell (pos-r ?x) (pos-c ?y) (type gate) (val UNDEFINED))
+    ?cella <- (prior cell (pos-r ?x) (pos-c ?y) (type gate) (val nil))
     =>
     (modify ?cella (val 0))
     
 )
 
 (defrule init_lake_cell
-    ?cella <- (prior cell (pos-r ?x) (pos-c ?y) (type lake) (val UNDEFINED))
+    ?cella <- (prior cell (pos-r ?x) (pos-c ?y) (type lake) (val nil))
     =>
     (modify ?cella (val 0))
 )
 
 (defrule init_hill_cell
-    ?cella <- (prior cell (pos-r ?x) (pos-c ?y) (type hill) (val UNDEFINED))
+    ?cella <- (prior cell (pos-r ?x) (pos-c ?y) (type hill) (val nil))
     =>
     (modify ?cella (val -100))
 )
 
 (defrule init_city_cell
-    ?cella <- (prior cell (pos-r ?x) (pos-c ?y) (type city) (val UNDEFINED))
+    ?cella <- (prior cell (pos-r ?x) (pos-c ?y) (type city) (val nil))
     =>
     (modify ?cella (val 100))
 )
 
 (defrule init_rural_cell
-    ?cella <- (prior cell (pos-r ?x) (pos-c ?y) (type rural) (val UNDEFINED))
+    ?cella <- (prior cell (pos-r ?x) (pos-c ?y) (type rural) (val nil))
     =>
     (modify ?cella (val 50))
 )
 
 ;;CALCOLO DEI VALORI ASSOLUTI
-
 (defrule calc_abs_score
-    ?cella <- (prior_cell (pos-r ?x) (pos-c ?y) (type (lake | rural | city)) (val ?v) (abs_score UNDEFINED))
+    ?cella <- (prior_cell (pos-r ?x) (pos-c ?y) (type (lake | rural | city)) (val ?v) (abs_score nil))
 		;;escludo le celle sul perimetro e le celle di tipo hill, perché non è possibile andarci.
-		;;controllare come si fa UNDEFINED o, eventualmente, dare un valore fuffa
     ;;recupero i valori nelle 8 celle circostanti
     (prior_cell (pos-r (- ?x 1)) (pos-c (- ?y 1)) (val ?sw))
     (prior_cell (pos-r (- ?x 1)) (pos-c ?y) (val ?s))
@@ -60,7 +58,15 @@
 
 (defrule update_rel_score
     (status (step ?s)) ;; mi serve capire quale sia lo step attuale per poter aggiornare solo gli absolute score obsoleti (del passo precedente)
-    ?cella <- (prior_cell (pos-r ?x) (pos-c ?y) (type (lake | rural | city) (abs_score ?abs) (not (step ?s))) ;;verificare l'operatore NOT
+    ?cella <- (prior_cell (pos-r ?x) (pos-c ?y) (type (lake | rural | city)) (abs_score ?abs_score) (not (step ?s)))
+    (perc_vision (step ?s) (pos-r ?r) (pos-c ?c))
     =>
-    ;; MOLTIPLICARE ?abs PER 1/DISTANZA (USARE MANHATTAN COME VALORE DI DISTANZA), AGGIORNARE abs_step a ?s
+    ;; MOLTIPLICARE ?abs_score PER 1/DISTANZA (USARE MANHATTAN COME VALORE DI DISTANZA), AGGIORNARE abs_step a ?s
+    (modify ?cella 
+        (rel_score 
+            (/ ?abs_score 
+                (+ (abs (- ?x ?r)) (abs (- ?y ?c)))
+            )
+        )
+    )
 )
