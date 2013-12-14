@@ -16,7 +16,8 @@
   => 
     (assert (kagent (time 0) (step 0)
                            (pos-r ?r) (pos-c ?c) (direction ?d)))
-    )
+    (focus INIT_PUNTEGGI)
+)
 
 ;; COMMENTATO PER VEDERLO NELL'INTERFACCIA
 ;;(defrule ask_act
