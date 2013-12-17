@@ -19,37 +19,7 @@
 	  
 	  
 ;; ***** LE NOSTRE MODIFICHE *****
-(deftemplate dummy_target
-			(slot pos-x)
-			(slot pos-y)
-)
 
-(deftemplate nearest_gate 
-			(slot pos-x) 
-			(slot pos-y)
-)
-
-(deftemplate node (slot ident) (slot gcost) (slot fcost) (slot father) (slot pos-r)
-
-                  (slot pos-c) (slot direction) (slot open)
-)
-
-(deftemplate newnode (slot ident) (slot gcost) (slot fcost) (slot father) (slot pos-r)
-
-                  (slot pos-c) (slot direction)
-)
-
-(deftemplate current (slot id))
-
-(deftemplate apply
-			(slot id) (slot op) (slot direction) (slot pos-x) (slot pos-y)
-)
-
-(deftemplate exec-star
-			(slot anc) (slot id) (slot op) (slot direction) (slot pos-x) (slot pos-y)
-)
-
-(deftemplate last (slot id))
 
 ;------------------ Fine delle nostre modifiche --------------------
 
