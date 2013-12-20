@@ -136,8 +136,8 @@
 			(father NA) (pos-r ?r) (pos-c ?c) (direction north) (open yes))
 		) 
         (assert(current (id 0)))
-		(assert (lastnode 0))
-		(focus PUNTEGGI)
+	(assert (lastnode 0))
+	(focus PUNTEGGI)
         (focus ASTAR)
 )
 
