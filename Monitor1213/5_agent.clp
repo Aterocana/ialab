@@ -136,25 +136,41 @@
 			(father NA) (pos-r ?r) (pos-c ?c) (direction north) (open yes))
 		) 
         (assert(current (id 0)))
-	(assert (lastnode 0))
-	(focus PUNTEGGI)
-        (focus ASTAR)
+		(assert (lastnode 0))
+		(focus PUNTEGGI)
+		(focus ASTAR)
+		
 )
 
+;-------------- Regole legate al modulo ASTAR ------------------------
 
 ;regola per riordinare le azioni di movimento trovate da A*
 (defrule execute-exec-star
 
-		(declare (salience 101))
-		?f<-(last (id ?id))
+		(declare (salience 50))
+?f1 <-	(last (id ?id))
 		(node (ident ?id) (father ?anc&~NA))  
-		(exec-star (anc ?anc) (id ?id) (op ?oper) (direction ?dir) (pos-x ?r) (pos-y ?c))
+?f2	<-	(exec-star (anc ?anc) (id ?id) (op ?oper) (direction ?dir) (pos-x ?r) (pos-y ?c))
 
 		=> (printout t " Eseguo azione " ?oper " da stato (" ?r "," ?c "), essendo in direzione " ?dir " in nodo "?id" con exec anc:"?anc" - id:"?id" " crlf)
 		(assert (ex-mon ?id ?oper))
 		(assert (last (id ?anc)))
-		(retract ?f)
+		(retract ?f1)
+		(retract ?f2)
+)
 
+(defrule clean-astar1
+		(declare (salience 25))
+?f <-	(node)
+		=>
+		(retract ?f)
+)
+
+(defrule clean-astar2
+		(declare (salience 25))
+?f <-	(exec-star)
+		=>
+		(retract ?f)
 )
 
 ;regola per eseguire le azioni trovate da A*, precedentemente ordinate
@@ -169,4 +185,5 @@
 		(assert (exec (action ?oper) (step ?s)))
 		(retract ?f)
 )
+
 

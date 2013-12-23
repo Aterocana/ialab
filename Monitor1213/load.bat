@@ -3,4 +3,8 @@
 (load "3_env.clp")
 (load "4_actual_map.clp")
 (load "5_agent.clp")
+(load "6_init_punteggi.clp")
+(load "7_punteggi.clp")
+(load "8_a_star.clp")
+(load "9_new.clp")
 (reset)
