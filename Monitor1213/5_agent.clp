@@ -174,7 +174,7 @@
 ?f2	<-	(exec-star (anc ?anc) (id ?id) (op ?oper) (direction ?dir) (pos-x ?r) (pos-y ?c))
 
 		=> (printout t " Eseguo azione " ?oper " da stato (" ?r "," ?c "), essendo in direzione " ?dir " in nodo "?id" con exec anc:"?anc" - id:"?id" " crlf)
-		(assert (ex-mon ?id ?oper))
+		(assert (path ?id ?oper))
 		(assert (last (id ?anc)))
 		(retract ?f1)
 		(retract ?f2)
@@ -200,8 +200,8 @@
 
 		(declare (salience 0))
 		(status (step ?s))
-?f <-	(ex-mon ?id ?oper)
-		(not (ex-mon ?id2&:(neq ?id ?id2)&:(< ?id2 ?id)))
+?f <-	(path ?id ?oper)
+		(not (path ?id2&:(neq ?id ?id2)&:(< ?id2 ?id)))
 		=>
 		(printout t "Eseguo exec: "?id" " crlf)
 		(assert (exec (action ?oper) (step ?s)))
