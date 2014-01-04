@@ -40,6 +40,12 @@
 
 (deftemplate last (slot id))
 
+;template temporaneo
+(deftemplate visitata
+	(slot pos-r)
+	(slot pos-c)
+)
+
 (defrule  beginagent
     (declare (salience 10))
     (status (step 0))
@@ -129,17 +135,32 @@
 (defrule turno1   
         ;(declare (salience 25))
         ?f <-   (status (step 1))
-		(perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
-		(dummy_target (pos-x ?x) (pos-y ?y))
         =>
-        (assert (node (ident 0) (gcost 0) (fcost (+ (* (+ (abs (- ?x ?r)) (abs (- ?y ?c))) 10) 5)) 
-			(father NA) (pos-r ?r) (pos-c ?c) (direction north) (open yes))
-		) 
-        (assert(current (id 0)))
-		(assert (lastnode 0))
+		;(assert (astar-go))
+		(assert (exec (action go-forward) (step 1)))
 		(focus PUNTEGGI)
-		(focus ASTAR)
-		
+)
+
+
+;regola per generare dinamicamente il target
+(defrule best-cell
+		(declare (salience 50))
+?f <-	(dummy_target (pos-x ?r1) (pos-y ?c1))
+		;(not (astar-go))
+		(prior_cell (pos-r ?r2) (pos-c ?c2) (rel_score ?best&:(neq ?best nil)))
+		(prior_cell (rel_score ?rel&:(neq ?rel nil)))
+		;(< ?rel ?best)
+		=>
+		;(modify ?f (pos-x ?r2) (pos-y ?c2))
+		(printout t "Best-cell "?r1" : "?c1" " crlf)
+		(printout t "cella prova "?r2" : "?c2" "?rel" "?best" " crlf)
+		(printout t (< ?rel ?best) " " crlf)
+)
+
+(defrule prova
+		(dummy_target (pos-x ?r1) (pos-y ?c1))
+		=>
+		(printout t "Target "?r1" : "?c1" " crlf)
 )
 
 ;-------------- Regole legate al modulo ASTAR ------------------------
@@ -159,6 +180,7 @@
 		(retract ?f2)
 )
 
+;regole per eliminare i fatti generati da A* non più utili
 (defrule clean-astar1
 		(declare (salience 25))
 ?f <-	(node)
@@ -186,4 +208,18 @@
 		(retract ?f)
 )
 
-
+;regola per attivare A* sul nuovo target
+(defrule astar-go
+?f <-	(astar-go)
+		(status (step ?s))
+		(perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
+		(dummy_target (pos-x ?x) (pos-y ?y))
+		=>
+		(retract ?f)
+		(assert (node (ident 0) (gcost 0) (fcost (+ (* (+ (abs (- ?x ?r)) (abs (- ?y ?c))) 10) 5)) 
+			(father NA) (pos-r ?r) (pos-c ?c) (direction north) (open yes))
+		) 
+        (assert(current (id 0)))
+		(assert (lastnode 0))
+		(focus ASTAR)
+)

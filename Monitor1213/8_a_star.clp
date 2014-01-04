@@ -1,6 +1,5 @@
 (defmodule ASTAR (import AGENT ?ALL) (export ?ALL))
 
-;regola da verificare
 (defrule achieved-goal
 		(declare (salience 100))
 		(current (id ?curr))
@@ -10,8 +9,6 @@
 		(printout t " Esiste soluzione per goal (" ?x "," ?y ") con costo "  ?g crlf)
 		(assert (last (id ?curr)))
 )
-
-
 
 ;===========  regole di movimento  =============
 
