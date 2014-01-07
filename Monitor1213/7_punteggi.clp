@@ -3,13 +3,14 @@
 (defrule update_rel_score_current_cell
     (status (step ?s))
     (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
-    ?cella <- (prior_cell (pos-r ?r) (pos-c ?c) (abs_step ?s&:(not ?s)))
+    ?cella <- (prior_cell (pos-r ?r) (pos-c ?c) (abs_step ?as&:(neq ?as ?s)))
     =>
     ;; ASSEGNO UN PUNTEGGIO RELATIVO MOLTO BASSO ALLA CELLA SU CUI SONO
     (modify ?cella
         (rel_score -1000)
     )
 )
+
 (defrule update_rel_score
     (status (step ?s)) ;; mi serve capire quale sia lo step attuale per poter aggiornare solo gli absolute score obsoleti (del passo precedente)
     (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
