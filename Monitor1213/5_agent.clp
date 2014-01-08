@@ -144,20 +144,20 @@
 
 ;regola per generare dinamicamente il target
 (defrule best-cell
-		(declare (salience 50))
+	(declare (salience 50))
 ?f <-	(dummy_target (pos-x ?r1) (pos-y ?c1))
-		(not (astar-go))
-		(prior_cell (pos-r ?r1) (pos-c ?c1) (rel_score ?rel&:(neq ?rel nil)))
-		(prior_cell (pos-r ?r2) (pos-c ?c2) (rel_score ?best&:(neq ?best nil)))
-		(test (< ?rel ?best))
-		(not (analizzata ?r2 ?c2))
-		=>
-		(retract ?f)
-		(assert (dummy_target (pos-x ?r2) (pos-y ?c2)))
-		(assert (analizzata ?r2 ?c2))
-		(printout t "Best-cell "?r1" : "?c1" " crlf)
-		(printout t "cella prova "?r2" : "?c2" "?rel" "?best" " crlf)
-		(printout t (< ?rel ?best) " " crlf)
+	(not (astar-go))
+	(prior_cell (pos-r ?r1) (pos-c ?c1) (rel_score ?rel&:(neq ?rel nil)))
+	(prior_cell (pos-r ?r2) (pos-c ?c2) (rel_score ?best&:(neq ?best nil)))
+	(test (< ?rel ?best))
+	(not (analizzata ?r2 ?c2))
+    =>
+	(retract ?f)
+	(assert (dummy_target (pos-x ?r2) (pos-y ?c2)))
+	(assert (analizzata ?r2 ?c2))
+	(printout t "Best-cell "?r1" : "?c1" " crlf)
+	(printout t "cella prova "?r2" : "?c2" "?rel" "?best" " crlf)
+	(printout t (< ?rel ?best) " " crlf)
 )
 
 (defrule prova

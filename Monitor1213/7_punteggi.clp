@@ -8,6 +8,7 @@
     ;; ASSEGNO UN PUNTEGGIO RELATIVO MOLTO BASSO ALLA CELLA SU CUI SONO
     (modify ?cella
         (rel_score -1000)
+        (abs_step ?s)
     )
 )
 
