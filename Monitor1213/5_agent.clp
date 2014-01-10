@@ -129,6 +129,7 @@
         =>
         (assert (exec (action go-forward) (step 0)))
         (assert (dummy_target (pos-x 9) (pos-y 7)))
+		;(assert (dummy_target (pos-x 4) (pos-y 4)))
         (assert (nearest_gate (pos-x 50) (pos-y 50)))
 )
 
@@ -136,35 +137,13 @@
         ;(declare (salience 25))
         ?f <-   (status (step 1))
         =>
-		;(assert (astar-go))
-		(assert (exec (action go-forward) (step 1)))
+		(assert (astar-go))
 		(focus PUNTEGGI)
 )
 
 
 ;regola per generare dinamicamente il target
-(defrule best-cell
-	(declare (salience 50))
-?f <-	(dummy_target (pos-x ?r1) (pos-y ?c1))
-	(not (astar-go))
-	(prior_cell (pos-r ?r1) (pos-c ?c1) (rel_score ?rel&:(neq ?rel nil)))
-	(prior_cell (pos-r ?r2) (pos-c ?c2) (rel_score ?best&:(neq ?best nil)))
-	(test (< ?rel ?best))
-	(not (analizzata ?r2 ?c2))
-    =>
-	(retract ?f)
-	(assert (dummy_target (pos-x ?r2) (pos-y ?c2)))
-	(assert (analizzata ?r2 ?c2))
-	(printout t "Best-cell "?r1" : "?c1" " crlf)
-	(printout t "cella prova "?r2" : "?c2" "?rel" "?best" " crlf)
-	(printout t (< ?rel ?best) " " crlf)
-)
-
-(defrule prova
-		(dummy_target (pos-x ?r1) (pos-y ?c1))
-		=>
-		(printout t "Target "?r1" : "?c1" " crlf)
-)
+;COPIATA IN PUNTEGGI
 
 ;-------------- Regole legate al modulo ASTAR ------------------------
 
@@ -213,6 +192,7 @@
 
 ;regola per attivare A* sul nuovo target
 (defrule astar-go
+		(declare (salience 0))
 ?f <-	(astar-go)
 		(status (step ?s))
 		(perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
