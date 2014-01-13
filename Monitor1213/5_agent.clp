@@ -34,6 +34,8 @@
 			(slot id) (slot op) (slot direction) (slot pos-x) (slot pos-y)
 )
 
+
+;; anc = ancestor
 (deftemplate exec-star
 			(slot anc) (slot id) (slot op) (slot direction) (slot pos-x) (slot pos-y)
 )
@@ -141,17 +143,13 @@
 		(focus PUNTEGGI)
 )
 
-
-;regola per generare dinamicamente il target
-;COPIATA IN PUNTEGGI
-
 ;-------------- Regole legate al modulo ASTAR ------------------------
 
 ;regola per riordinare le azioni di movimento trovate da A*
 (defrule execute-exec-star
 
 		(declare (salience 50))
-?f1 <-	(last (id ?id))
+?f1     <-	(last (id ?id))
 		(node (ident ?id) (father ?anc&~NA))  
 ?f2	<-	(exec-star (anc ?anc) (id ?id) (op ?oper) (direction ?dir) (pos-x ?r) (pos-y ?c))
 
