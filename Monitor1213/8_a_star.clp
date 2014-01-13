@@ -1,13 +1,13 @@
 (defmodule ASTAR (import AGENT ?ALL) (export ?ALL))
 
 (defrule achieved-goal
-		(declare (salience 100))
-		(current (id ?curr))
-		(dummy_target (pos-x ?x) (pos-y ?y))
-		(node (ident ?curr) (pos-r ?x) (pos-c ?y) (gcost ?g))  
-		=> 
-		(printout t " Esiste soluzione per goal (" ?x "," ?y ") con costo "  ?g crlf)
-		(assert (last (id ?curr)))
+    (declare (salience 100))
+    (current (id ?curr))
+    (dummy_target (pos-x ?x) (pos-y ?y))
+    (node (ident ?curr) (pos-r ?x) (pos-c ?y) (gcost ?g))  
+    => 
+    (printout t " Esiste soluzione per goal (" ?x "," ?y ") con costo "  ?g crlf)
+    (assert (last (id ?curr)))
 )
 
 ;===========  regole di movimento  =============
