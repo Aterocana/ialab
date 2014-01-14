@@ -1,5 +1,6 @@
 (defmodule ASTAR (import AGENT ?ALL) (export ?ALL))
 
+; ho trovato il nodo target
 (defrule achieved-goal
     (declare (salience 100))
     (current (id ?curr))
@@ -11,16 +12,21 @@
 )
 
 ;===========  regole di movimento  =============
+; Ogni volta genero, laddove è possibile, fino a tre (uno per ogni operazione 
+; possibile) fatti di tipo op-apply-direction (ovvero le celle su cui 
+; potenzialmente posso spostarmi) a seconda della direzione in cui sono.
+; A questo punto vengono attivate, grazie ai fatti apply, le regole di tipo
+; op-exec-direction che mi generano un fatto di tipo newnode che verrà, 
+; eventualmente, trasformato in un fatto di tipo node dal modulo NEW.
 
 (defrule go-forward-apply-north
         (declare (salience 50))
         (current (id ?curr))
         (node (ident ?curr) (pos-r ?r) (pos-c ?c) (direction north) (open yes))
         ;(cell (pos-r =(+ ?r 1)) (pos-c ?c) (contains empty|gate))
-		(prior_cell (pos-r =(+ ?r 1)) (pos-c ?c) (type gate | lake | rural | urban))
-
-		=> 
-		(assert (apply (id ?curr) (op go-forward) (direction north) (pos-x ?r) (pos-y ?c)))
+	(prior_cell (pos-r =(+ ?r 1)) (pos-c ?c) (type gate | lake | rural | urban))
+    => 
+        (assert (apply (id ?curr) (op go-forward) (direction north) (pos-x ?r) (pos-y ?c)))
 )
 
 (defrule go-forward-exec-north
@@ -30,15 +36,22 @@
 ?f1 <- 	(apply (id ?curr) (op go-forward) (direction north) (pos-x ?r) (pos-y ?c))
         (node (ident ?curr) (gcost ?g))
         ;(goal ?x ?y)
-		(dummy_target (pos-x ?x) (pos-y ?y))
-		
-		=>
-		(assert (exec-star (anc ?curr) (id =(+ ?n 1)) (op go-forward) (direction north) (pos-x ?r) (pos-y ?c)))
-		(assert	(newnode (ident (+ ?n 1)) (pos-r (+ ?r 1)) (pos-c ?c) (direction north)
-                (gcost (+ ?g 10)) (fcost (+ (+(*(+(abs (- ?x (+ ?r 1))) (abs (- ?y ?c))) 10) 5) ?g 10))
-				(father ?curr)))
-		(retract ?f1)
-		(focus NEW)
+        (dummy_target (pos-x ?x) (pos-y ?y))		
+    =>
+        (assert (exec-star (anc ?curr) (id =(+ ?n 1)) (op go-forward) (direction north) (pos-x ?r) (pos-y ?c)))
+        (assert	
+            (newnode 
+                (ident (+ ?n 1)) 
+                (pos-r (+ ?r 1)) 
+                (pos-c ?c) 
+                (direction north)
+                (gcost (+ ?g 10)) 
+                (fcost (+ (+(*(+(abs (- ?x (+ ?r 1))) (abs (- ?y ?c))) 10) 5) ?g 10))
+                (father ?curr)
+            )
+        )
+        (retract ?f1)
+        (focus NEW)
 )
 
 (defrule right-apply-north
@@ -362,9 +375,12 @@
 )
 ;--------------Fine azioni movimento--------------------
 
-;lastnode ci serve???
-(defrule change-current
+;; CONTROLLARE QUESTO COMMENTO
+; Se il current fosse il goal avrei attivato la regola achieved-goal, quindi
+; trovo il fatto di tipo node con fcost minore e continuo l'esplorazione da 
+; quello
 
+(defrule change-current
 		(declare (salience 49))
 		?f1 <-   (current (id ?curr))
 		?f2 <-   (node (ident ?curr))
@@ -372,17 +388,20 @@
 		(not (node (ident ?id&:(neq ?id ?curr)) (fcost ?gg&:(< ?gg ?bestcost)) (open yes)))
 		?f3 <-   (lastnode ?last)
 		=>    
-		(assert (current (id ?best)) (lastnode (+ ?last 13)))
+		(assert (current (id ?best))
+                        (lastnode (+ ?last 13))
+                )
 		(retract ?f1 ?f3)
 		(modify ?f2 (open no))
 ) 
 
+; se il current node non ha più sbocchi allora chiudo questo percorso
 (defrule close-empty
          (declare (salience 49))
 ?f1 <-   (current (id ?curr))
 ?f2 <-   (node (ident ?curr))
-         (not (node (ident ?id&:(neq ?id ?curr))  (open yes)))
-		=> 
+         (not (node (ident ?id&:(neq ?id ?curr)) (open yes)))
+    => 
          (retract ?f1)
          (modify ?f2 (open no))
          (printout t " fail (last  node expanded " ?curr ")" crlf)

@@ -33,7 +33,6 @@
     (slot id) (slot op) (slot direction) (slot pos-x) (slot pos-y)
 )
 
-
 ;; anc = ancestor
 (deftemplate exec-star
     (slot anc) (slot id) (slot op) (slot direction) (slot pos-x) (slot pos-y)
@@ -145,8 +144,8 @@
 ;-------------- Regole legate al modulo ASTAR ------------------------
 
 ;regola per riordinare le azioni di movimento trovate da A*
+;gira al contrario il percorso generato da A*
 (defrule execute-exec-star
-
         (declare (salience 50))
 ?f1 <-  (last (id ?id))
         (node (ident ?id) (father ?anc&~NA))  
@@ -174,7 +173,7 @@
         (retract ?f)
 )
 
-;regola per eseguire le azioni trovate da A*, precedentemente ordinate
+;regola per eseguire le azioni trovate da A*, precedentemente ordinate in path
 (defrule execute-exec-star2
         (declare (salience 0))
         (status (step ?s))
@@ -186,7 +185,8 @@
         (retract ?f)
 )
 
-;regola per attivare A* sul nuovo target
+; regola per attivare A* sul nuovo target:
+; inizializzo i fatti di tipo node, current e lastnode
 (defrule astar-go
         (declare (salience 0))
 ?f <-	(astar-go)
@@ -195,10 +195,13 @@
         (dummy_target (pos-x ?x) (pos-y ?y))
 	=>
         (retract ?f)
+
+;RICORDARSI DI MODIFICARE direction north IN UNA DIREZIONE PARAMETRICA A SECONDA DI DOVE "INIZIA" l'UAV
+
         (assert (node (ident 0) (gcost 0) (fcost (+ (* (+ (abs (- ?x ?r)) (abs (- ?y ?c))) 10) 5)) 
-                (father NA) (pos-r ?r) (pos-c ?c) (direction north) (open yes))
+            (father NA) (pos-r ?r) (pos-c ?c) (direction north) (open yes))
         ) 
-        (assert(current (id 0)))
+        (assert (current (id 0)))
         (assert (lastnode 0))
         (focus ASTAR)
 )

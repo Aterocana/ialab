@@ -1,6 +1,6 @@
 (defmodule PUNTEGGI (import AGENT ?ALL) (export ?ALL))
 
-(defrule update_rel_score_current_cell
+(defrule update_rel_score_current_cell    
     (status (step ?s))
     (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
     ?cella <- (prior_cell (pos-r ?r) (pos-c ?c) (abs_step ?as&:(neq ?as ?s)))
@@ -12,7 +12,7 @@
     )
 )
 
-(defrule update_rel_score
+(defrule update_rel_score    
     (status (step ?s)) ;; mi serve capire quale sia lo step attuale per poter aggiornare solo gli absolute score obsoleti (del passo precedente)
     (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
     ;; Escludo la cella attuale per evitare divisioni per zero visto che la distanza Manhattan sarebbe zero.

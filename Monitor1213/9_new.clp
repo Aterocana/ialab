@@ -1,6 +1,10 @@
 (defmodule NEW (import ASTAR ?ALL) (export ?ALL))
+; Controllo se il newnode generato è: 
+; - chiuso
+; - se è aperto ma c'è un modo migliore per arrivarci 
+; - se effettivamente una soluzione migliore rispetto a quelle trovate (e quindi asserisco un fatto di tipo node)
+; - se non è mai stato esplorato prima d'ora (asserisco quindi un fatto di tipo node)
 
-;Ci serve alreadyclosed????
 (defrule check-closed
 		(declare (salience 50))
 ?f1 <-  (newnode (ident ?id) (pos-r ?r) (pos-c ?c))
