@@ -46,6 +46,12 @@
     (slot pos-c)
 )
 
+(deftemplate costo-check 
+	(slot pos-r)
+    (slot pos-c)
+	(slot cost)
+)
+
 (defrule  beginagent
     (declare (salience 10))
     (status (step 0))
@@ -150,6 +156,7 @@
 ?f1 <-  (last (id ?id))
         (node (ident ?id) (father ?anc&~NA))  
 ?f2 <-  (exec-star (anc ?anc) (id ?id) (op ?oper) (direction ?dir) (pos-x ?r) (pos-y ?c))
+		(not(double-check))
     =>  
         (printout t " Eseguo azione " ?oper " da stato (" ?r "," ?c "), essendo in direzione " ?dir " in nodo "?id" con exec anc:"?anc" - id:"?id" " crlf)
         (assert (path ?id ?oper))
@@ -173,19 +180,32 @@
         (retract ?f)
 )
 
-(defrule check-time
-    (costo ?costo)
-    =>
-    (focus TIME)
+
+(defrule checkpath
+		(declare (salience 10))
+?f1 <-	(costo-check)
+		(prior_cell (pos-r ?x1) (pos-c ?y1) (type gate))
+?f2 <-	(dummy_target (pos-x ?x2) (pos-y ?y2))
+	=>
+		(retract ?f1)
+		(retract ?f2)
+		(assert (dummy_target (pos-x ?x1) (pos-y ?y1)))
+		(assert (node (ident 0) (gcost 0) (fcost (+ (* (+ (abs (- ?x1 ?x2)) (abs (- ?y1 ?y1))) 10) 5)) 
+            (father NA) (pos-r ?x2) (pos-c ?x1) (direction north) (open yes))
+        )
+		(assert (current (id 0)))
+        (assert (lastnode 0))
+		(assert double-check)
+		(focus ASTAR)
 )
 
 ;regola per eseguire le azioni trovate da A*, precedentemente ordinate in path
 (defrule execute-exec-star2
         (declare (salience 0))
         (status (step ?s))
+		(costo-check)
 ?f <-	(path ?id ?oper)
         (not (path ?id2&:(neq ?id ?id2)&:(< ?id2 ?id)))
-        (not (costo ?costo))
 	=>
         (printout t "Eseguo exec: "?id" " crlf)
         (assert (exec (action ?oper) (step ?s)))

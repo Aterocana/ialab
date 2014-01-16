@@ -5,25 +5,11 @@
     (declare (salience 100))
     (current (id ?curr))
     (dummy_target (pos-x ?x) (pos-y ?y))
-    (node (ident ?curr) (pos-r ?x) (pos-c ?y) (gcost ?g))
-    (not (costo ?costo))
+    (node (ident ?curr) (pos-r ?x) (pos-c ?y) (gcost ?g))  
     => 
     (printout t " Esiste soluzione per goal (" ?x "," ?y ") con costo "  ?g crlf)
     (assert (last (id ?curr)))
-    (assert (costo ?g))
-)
-
-(defrule achieved-goal2
-    (declare (salience 100))
-    (current (id ?curr))
-    (dummy_target (pos-x ?x) (pos-y ?y))
-    (node (ident ?curr) (pos-r ?x) (pos-c ?y) (gcost ?g))
-?f1 <- (costo ?costo&:(< ?costo ?g))
-    => 
-    (printout t " Trovata soluzione migliore per goal (" ?x "," ?y ") con costo "  ?costo crlf)
-    (assert (last (id ?curr)))
-    (retract ?f1)
-    (assert (costo ?costo))
+	(assert (costo-check (pos-r ?x) (pos-c ?y) (cost ?g)))
 )
 
 ;===========  regole di movimento  =============
@@ -323,7 +309,7 @@
 		(dummy_target (pos-x ?x) (pos-y ?y))
 		
 		=>
-		(assert (exec-star (anc ?curr) (id =(+ ?n 1)) (op go-forward) (direction south) (pos-x ?r) (pos-y ?c)))
+		(assert (exec-star (anc ?curr) (id =(+ ?n 10)) (op go-forward) (direction south) (pos-x ?r) (pos-y ?c)))
 		(assert	(newnode (ident (+ ?n 10)) (pos-r (- ?r 1)) (pos-c ?c) (direction south)
                 (gcost (+ ?g 10)) (fcost (+ (+(*(+(abs (- ?x (- ?r 1))) (abs (- ?y ?c))) 10) 5) ?g 10))
 				(father ?curr)))
@@ -352,7 +338,7 @@
 		(dummy_target (pos-x ?x) (pos-y ?y))
 		
 		=>
-		(assert (exec-star (anc ?curr) (id =(+ ?n 2)) (op go-right) (direction south) (pos-x ?r) (pos-y ?c)))
+		(assert (exec-star (anc ?curr) (id =(+ ?n 11)) (op go-right) (direction south) (pos-x ?r) (pos-y ?c)))
 		(assert	(newnode (ident (+ ?n 11)) (pos-r ?r) (pos-c (- ?c 1)) (direction west)
                 (gcost (+ ?g 15)) (fcost (+ (+(*(+(abs (- ?x ?r)) (abs (- ?y (- ?c 1)))) 10) 5) ?g 15))
 				(father ?curr)))
@@ -381,7 +367,7 @@
 		(dummy_target (pos-x ?x) (pos-y ?y))
 		
 		=>
-		(assert (exec-star (anc ?curr) (id =(+ ?n 3)) (op go-left) (direction south) (pos-x ?r) (pos-y ?c)))
+		(assert (exec-star (anc ?curr) (id =(+ ?n 12)) (op go-left) (direction south) (pos-x ?r) (pos-y ?c)))
 		(assert	(newnode (ident (+ ?n 12)) (pos-r ?r) (pos-c (+ ?c 1)) (direction east)
                 (gcost (+ ?g 15)) (fcost (+ (+(*(+(abs (- ?x ?r)) (abs (- ?y (+ ?c 1)))) 10) 5) ?g 15))
 				(father ?curr)))
