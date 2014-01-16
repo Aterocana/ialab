@@ -173,12 +173,19 @@
         (retract ?f)
 )
 
+(defrule check-time
+    (costo ?costo)
+    =>
+    (focus TIME)
+)
+
 ;regola per eseguire le azioni trovate da A*, precedentemente ordinate in path
 (defrule execute-exec-star2
         (declare (salience 0))
         (status (step ?s))
 ?f <-	(path ?id ?oper)
         (not (path ?id2&:(neq ?id ?id2)&:(< ?id2 ?id)))
+        (not (costo ?costo))
 	=>
         (printout t "Eseguo exec: "?id" " crlf)
         (assert (exec (action ?oper) (step ?s)))

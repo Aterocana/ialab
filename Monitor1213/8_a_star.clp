@@ -5,10 +5,25 @@
     (declare (salience 100))
     (current (id ?curr))
     (dummy_target (pos-x ?x) (pos-y ?y))
-    (node (ident ?curr) (pos-r ?x) (pos-c ?y) (gcost ?g))  
+    (node (ident ?curr) (pos-r ?x) (pos-c ?y) (gcost ?g))
+    (not (costo ?costo))
     => 
     (printout t " Esiste soluzione per goal (" ?x "," ?y ") con costo "  ?g crlf)
     (assert (last (id ?curr)))
+    (assert (costo ?g))
+)
+
+(defrule achieved-goal2
+    (declare (salience 100))
+    (current (id ?curr))
+    (dummy_target (pos-x ?x) (pos-y ?y))
+    (node (ident ?curr) (pos-r ?x) (pos-c ?y) (gcost ?g))
+?f1 <- (costo ?costo&:(< ?costo ?g))
+    => 
+    (printout t " Trovata soluzione migliore per goal (" ?x "," ?y ") con costo "  ?costo crlf)
+    (assert (last (id ?curr)))
+    (retract ?f1)
+    (assert (costo ?costo))
 )
 
 ;===========  regole di movimento  =============
