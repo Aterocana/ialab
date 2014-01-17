@@ -6,11 +6,25 @@
     (declare (salience 100))
     (current (id ?curr))
     (dummy_target (pos-x ?x) (pos-y ?y))
-    (node (ident ?curr) (pos-r ?x) (pos-c ?y) (gcost ?g))  
+    (node (ident ?curr) (pos-r ?x) (pos-c ?y) (gcost ?g))
+    (not (costo-check))
     => 
     (printout t " Esiste soluzione per goal (" ?x "," ?y ") con costo "  ?g crlf)
     (assert (last (id ?curr)))
-	(assert (costo-check (pos-r ?x) (pos-c ?y) (cost ?g)))
+    (assert (costo-check (pos-r ?x) (pos-c ?y) (cost ?g)))
+)
+
+(defrule update-achieved-goal
+    (declare (salience 100))
+    (current (id ?curr))
+    (dummy_target (pos-x ?x) (pos-y ?y))
+    (node (ident ?curr) (pos-r ?x) (pos-c ?y) (gcost ?g))
+    ?costo <- (costo-check (pos-r ?x) (pos-c ?y) (cost ?cost&:(< ?cost ?g)))
+    => 
+    (printout t " Aggiornata la soluzione per goal (" ?x "," ?y ") con costo "  ?g crlf)
+    (assert (last (id ?curr)))
+    (retract ?costo)
+    (assert (costo-check (pos-r ?x) (pos-c ?y) (cost ?g)))
 )
 
 ;===========  regole di movimento  =============

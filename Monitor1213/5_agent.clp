@@ -48,9 +48,9 @@
 
 ;ALE: gli slot pos-r e pos-c posso essere eliminati se non servono
 (deftemplate costo-check 
-	(slot pos-r)
+    (slot pos-r)
     (slot pos-c)
-	(slot cost)
+    (slot cost)
 )
 
 (defrule  beginagent
@@ -197,7 +197,7 @@
         )
 		(assert (current (id 0)))
         (assert (lastnode 0))
-		(assert double-check)
+		(assert (double-check))
 		(focus ASTAR)
 )
 
