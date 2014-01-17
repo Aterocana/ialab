@@ -1,6 +1,7 @@
 (defmodule ASTAR (import AGENT ?ALL) (export ?ALL))
 
 ; ho trovato il nodo target
+;ALE: asserisco costo-check
 (defrule achieved-goal
     (declare (salience 100))
     (current (id ?curr))

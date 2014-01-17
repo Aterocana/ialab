@@ -46,6 +46,7 @@
     (slot pos-c)
 )
 
+;ALE: gli slot pos-r e pos-c posso essere eliminati se non servono
 (deftemplate costo-check 
 	(slot pos-r)
     (slot pos-c)
@@ -180,7 +181,8 @@
         (retract ?f)
 )
 
-
+;ALE: controlla se esiste il fatto costo-check
+;imposta un gate come target e lancia A*
 (defrule checkpath
 		(declare (salience 10))
 ?f1 <-	(costo-check)
@@ -200,6 +202,7 @@
 )
 
 ;regola per eseguire le azioni trovate da A*, precedentemente ordinate in path
+;questa regola viene attivata solo se è presente il fatto costo-check
 (defrule execute-exec-star2
         (declare (salience 0))
         (status (step ?s))
