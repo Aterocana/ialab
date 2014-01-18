@@ -153,6 +153,7 @@
 
 ;ALE: controlla se esiste il fatto costo-check
 ;imposta un gate come target e lancia A*
+; controllo che sia raggiungibile un gate a partire da dummy target
 (defrule checkpath
         (declare (salience 10))
 ?f1 <-	(costo-check)
@@ -167,6 +168,8 @@
         )
         (assert (current (id 0)))
         (assert (lastnode 0))
+; double-check è il flag per non produrre fatti di tipo path (in quanto questo è
+; solo un controllo per vedere se almeno un gate è raggiungibile)
         (assert (double-check))
         (focus ASTAR)
 )
