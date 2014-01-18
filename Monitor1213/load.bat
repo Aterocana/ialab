@@ -7,4 +7,5 @@
 (load "7_punteggi.clp")
 (load "8_a_star.clp")
 (load "9_new.clp")
+(load "10_post-astar.clp")
 (reset)

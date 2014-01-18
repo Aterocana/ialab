@@ -1,4 +1,4 @@
-(defmodule POSTASTAR (import AGENT ?ALL) (export ?ALL))
+(defmodule POSTASTAR (import ASTAR ?ALL) (export ?ALL))
 
 ;regola per riordinare le azioni di movimento trovate da A*
 ;gira al contrario il percorso generato da A*
