@@ -30,7 +30,7 @@ public class ClipsCore {
             clips.load("7_punteggi.clp");
             clips.load("8_a_star.clp");
             clips.load("9_new.clp");
-            clips.load("11_time.clp");
+            clips.load("10_post-astar.clp");
             router = new RouterDialog("routerCore");
             clips.addRouter(router);
 	}

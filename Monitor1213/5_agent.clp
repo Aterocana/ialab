@@ -150,55 +150,25 @@
 
 ;-------------- Regole legate al modulo ASTAR ------------------------
 
-;regola per riordinare le azioni di movimento trovate da A*
-;gira al contrario il percorso generato da A*
-(defrule execute-exec-star
-        (declare (salience 50))
-?f1 <-  (last (id ?id))
-        (node (ident ?id) (father ?anc&~NA))  
-?f2 <-  (exec-star (anc ?anc) (id ?id) (op ?oper) (direction ?dir) (pos-x ?r) (pos-y ?c))
-		(not(double-check))
-    =>  
-        (printout t " Eseguo azione " ?oper " da stato (" ?r "," ?c "), essendo in direzione " ?dir " in nodo "?id" con exec anc:"?anc" - id:"?id" " crlf)
-        (assert (path ?id ?oper))
-        (assert (last (id ?anc)))
-        (retract ?f1)
-        (retract ?f2)
-)
-
-;regole per eliminare i fatti generati da A* non più utili
-(defrule clean-astar1
-        (declare (salience 25))
-?f <-	(node)
-        =>
-	(retract ?f)
-)
-
-(defrule clean-astar2
-        (declare (salience 25))
-?f <-	(exec-star)
-	=>
-        (retract ?f)
-)
 
 ;ALE: controlla se esiste il fatto costo-check
 ;imposta un gate come target e lancia A*
 (defrule checkpath
-		(declare (salience 10))
+        (declare (salience 10))
 ?f1 <-	(costo-check)
-		(prior_cell (pos-r ?x1) (pos-c ?y1) (type gate))
+        (prior_cell (pos-r ?x1) (pos-c ?y1) (type gate))
 ?f2 <-	(dummy_target (pos-x ?x2) (pos-y ?y2))
 	=>
-		(retract ?f1)
-		(retract ?f2)
-		(assert (dummy_target (pos-x ?x1) (pos-y ?y1)))
-		(assert (node (ident 0) (gcost 0) (fcost (+ (* (+ (abs (- ?x1 ?x2)) (abs (- ?y1 ?y1))) 10) 5)) 
+        (retract ?f1)
+        (retract ?f2)
+        (assert (dummy_target (pos-x ?x1) (pos-y ?y1)))
+        (assert (node (ident 0) (gcost 0) (fcost (+ (* (+ (abs (- ?x1 ?x2)) (abs (- ?y1 ?y1))) 10) 5)) 
             (father NA) (pos-r ?x2) (pos-c ?x1) (direction north) (open yes))
         )
-		(assert (current (id 0)))
+        (assert (current (id 0)))
         (assert (lastnode 0))
-		(assert (double-check))
-		(focus ASTAR)
+        (assert (double-check))
+        (focus ASTAR)
 )
 
 ;regola per eseguire le azioni trovate da A*, precedentemente ordinate in path
