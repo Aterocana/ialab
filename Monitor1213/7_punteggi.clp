@@ -1,6 +1,6 @@
 (defmodule PUNTEGGI (import AGENT ?ALL) (export ?ALL))
 
-(defrule update_rel_score_current_cell    
+(defrule update_rel_score_current_cell
     (status (step ?s))
     (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
     ?cella <- (prior_cell (pos-r ?r) (pos-c ?c) (abs_step ?as&:(neq ?as ?s)))
@@ -12,17 +12,17 @@
     )
 )
 
-(defrule update_rel_score    
+(defrule update_rel_score
     (status (step ?s)) ;; mi serve capire quale sia lo step attuale per poter aggiornare solo gli absolute score obsoleti (del passo precedente)
     (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
     ;; Escludo la cella attuale per evitare divisioni per zero visto che la distanza Manhattan sarebbe zero.
     ?cella <- (prior_cell (pos-r ?x&:(neq ?x ?r)) (pos-c ?y&:(neq ?y ?c)) (type lake | rural | urban) (abs_score ?abs_score) (abs_step ?as&:(neq ?as ?s)))
     =>
     ;; MOLTIPLICARE ?abs_score PER 1/DISTANZA (USARE MANHATTAN COME VALORE DI DISTANZA), AGGIORNARE abs_step a ?s
-    (modify ?cella 
-        (rel_score 
-            (/ 
-                ?abs_score 
+    (modify ?cella
+        (rel_score
+            (/
+                ?abs_score
                 (+ (abs (- ?x ?r)) (abs (- ?y ?c)))
             )
         )
@@ -32,7 +32,7 @@
 
 (defrule best-cell
 	;(declare (salience 50))
-?f <-	(dummy_target (pos-x ?r1) (pos-y ?c1))
+?f <-	(temporary_target (pos-x ?r1) (pos-y ?c1))
 	;(not (astar-go))
 	(prior_cell (pos-r ?r1) (pos-c ?c1) (rel_score ?rel&:(neq ?rel nil)))
 	(prior_cell (pos-r ?r2) (pos-c ?c2) (rel_score ?best&:(neq ?best nil)))
@@ -40,7 +40,7 @@
 	(not (analizzata ?r2 ?c2))
     =>
 	(retract ?f)
-	(assert (dummy_target (pos-x ?r2) (pos-y ?c2)))
+	(assert (temporary_target (pos-x ?r2) (pos-y ?c2)))
 	(assert (analizzata ?r2 ?c2))
 	;(assert (astar-go))
 	(printout t "Best-cell "?r1" : "?c1" " crlf)
