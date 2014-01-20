@@ -216,7 +216,7 @@
         (retract ?f2)
         (assert (dummy_target (pos-x ?x2) (pos-y ?y2)))
         ;RICORDARSI DI MODIFICARE direction north IN UNA DIREZIONE PARAMETRICA A SECONDA DI DOVE "INIZIA" l'UAV
-        (assert (node (ident 0) (gcost 0) (fcost (+ (* (+ (abs (- ?x ?r)) (abs (- ?y ?c))) 10) 5))
+        (assert (node (ident 0) (gcost 0) (fcost (+ (* (+ (abs (- ?x2 ?r)) (abs (- ?y2 ?c))) 10) 5))
             (father NA) (pos-r ?r) (pos-c ?c) (direction north) (open yes))
         )
         (assert (current (id 0)))
