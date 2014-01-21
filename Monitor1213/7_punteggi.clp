@@ -17,10 +17,13 @@
     (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
     ;; Escludo la cella attuale per evitare divisioni per zero visto che la distanza Manhattan sarebbe zero.
     ?cella <- (prior_cell (pos-r ?x) (pos-c ?y) (type lake | rural | urban) (abs_score ?abs_score) (abs_step ?as&:(neq ?as ?s)))
-	(or 
-		(test(neq ?x ?r))
-		(test(neq ?y ?c))
-	)
+    (test
+        (or
+            (neq ?x ?r)
+            (neq ?y ?c)
+        )
+    )
+        
     =>
     ;; MOLTIPLICARE ?abs_score PER 1/DISTANZA (USARE MANHATTAN COME VALORE DI DISTANZA), AGGIORNARE abs_step a ?s
 	(printout t "test: " (neq ?x ?r) " " (neq ?y ?c) crlf)
