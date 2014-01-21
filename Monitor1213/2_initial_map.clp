@@ -64,7 +64,7 @@
              (prior_cell (pos-r 5) (pos-c 9) (type lake))
              (prior_cell (pos-r 5) (pos-c 10) (type urban))
              (prior_cell (pos-r 5) (pos-c 11) (type border))
-	         (prior_cell (pos-r 6) (pos-c 1) (type border))
+	     (prior_cell (pos-r 6) (pos-c 1) (type border))
              (prior_cell (pos-r 6) (pos-c 2) (type rural))
              (prior_cell (pos-r 6) (pos-c 3) (type lake))
              (prior_cell (pos-r 6) (pos-c 4) (type rural))

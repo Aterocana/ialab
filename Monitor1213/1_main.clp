@@ -19,7 +19,16 @@
 	  
 	  
 ;; ***** LE NOSTRE MODIFICHE *****
-
+;; ho incluso il type al solo scopo di debugging
+(deftemplate score_cell
+    (slot pos-r)
+    (slot pos-c)
+    (slot val)
+    (slot abs_score)
+    (slot rel_score)
+    (slot abs_step)
+    (slot type)
+)
 
 ;------------------ Fine delle nostre modifiche --------------------
 
@@ -62,11 +71,6 @@
     (slot pos-r)
     (slot pos-c)
     (slot type (allowed-values urban rural lake hill gate border))
-;;AGGIUNTE NOSTRE
-    (slot val)
-    (slot abs_score)
-    (slot rel_score)
-    (slot abs_step)
 )
 
 ;;  questo template serve solo per avere una struttura per asserire lo stato iniziale dell'agente
