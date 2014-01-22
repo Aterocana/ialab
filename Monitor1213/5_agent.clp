@@ -197,7 +197,7 @@
 ;?f <-	(path (id ?id) (oper ?oper))
 ;        (not (path (id ?id2&:(neq ?id ?id2)&:(< ?id2 ?id))))
 ?f <-	(path ?id ?oper)
-        (not (path ?id2&:(neq ?id ?id2)&:(< ?id2 ?id))))
+        (not (path ?id2&:(neq ?id ?id2)&:(< ?id2 ?id)))
 	=>
         (printout t "Eseguo exec: "?id" " crlf)
         (assert (exec (action ?oper) (step ?s)))
