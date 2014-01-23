@@ -161,33 +161,6 @@
     (printout t "STO CAAAZZOOOOOO!" crlf)
 )
 
-;ALE: controlla se esiste il fatto costo-check
-;imposta un gate come target e lancia A*
-; controllo che sia raggiungibile un gate a partire da dummy target
-(defrule checkpath
-        (declare (salience 10))
-?f1 <-	(costo-check)
-        (prior_cell (pos-r ?x1) (pos-c ?y1) (type gate))
-?f2 <-	(dummy_target)
-        (temporary_target (pos-x ?x2) (pos-y ?y2))
-        (not(analizzata ?x1 ?y1))
-	=>
-        (retract ?f1)
-        (retract ?f2)
-        (assert (analizzata ?x1 ?y1))
-        (assert (double-check))
-        (assert (dummy_target (pos-x ?x1) (pos-y ?y1)))
-        (assert (node (ident 0) (gcost 0) (fcost (+ (* (+ (abs (- ?x1 ?x2)) (abs (- ?y1 ?y2))) 10) 5))
-            (father NA) (pos-r ?x2) (pos-c ?y2) (direction north) (open yes))
-        )
-        (assert (current (id 0)))
-        (assert (lastnode 0))
-        ; double-check è il flag per non produrre fatti di tipo path (in quanto questo è
-        ; solo un controllo per vedere se almeno un gate è raggiungibile)
-        (assert (double-check))
-        (focus ASTAR)
-)
-
 ;regola per eseguire le azioni trovate da A*, precedentemente ordinate in path
 ;questa regola viene attivata solo se è presente il fatto costo-check
 (defrule execute-exec-star2
