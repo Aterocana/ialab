@@ -54,3 +54,9 @@
 	(printout t "cella prova "?r2" : "?c2" "?rel" "?best" " crlf)
 	(printout t (< ?rel ?best) " " crlf)
 )
+
+(defrule punteggi-ok
+    (declare (salience 0))
+    =>
+    (assert (punteggi_checked))
+)

@@ -22,3 +22,9 @@
         (assert (lastnode 0))
         (focus ASTAR)
 )
+
+(defrule time-ok
+    (declare (salience 0))
+    =>
+    (assert (astar_checked))
+)

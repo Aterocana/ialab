@@ -41,3 +41,9 @@
     =>
     (retract ?f)
 )
+
+(defrule time-ok
+    (declare (salience 0))
+    =>
+    (assert (time_checked))
+)
