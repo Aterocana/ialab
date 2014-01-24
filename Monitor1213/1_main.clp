@@ -30,12 +30,12 @@
     (slot type)
 )
 
-;(deftemplate path
-;    (slot id)
-;    (slot oper)
-;    (slot target-r)
-;    (slot target-c)    
-;)
+(deftemplate path
+    (slot id)
+    (slot oper)
+    (slot target-r)
+    (slot target-c)    
+)
 ;------------------ Fine delle nostre modifiche --------------------
 
 ;; lo stato globale fornito dal sistema

@@ -134,67 +134,88 @@
 ;(assert (exec (action loiter-monitoring) (step 41)))
 ;(assert (exec (action inform) (param1 7) (param2 6) (param3 severe-flood) (step 42)))
 
-;i target devono essere inizializzati in modo automatico
-(defrule turno0
-    ;(declare (salience 25))
-?f  <- (status (step 0))
+(defrule turno0 
+    (status (step 0))
     =>
-    (assert (exec (action go-forward) (step 0)))
-    (assert (dummy_target (pos-x 9) (pos-y 7)))
-    ;(assert (dummy_target (pos-x 4) (pos-y 4)))
-    (assert (temporary_target (pos-x 9) (pos-y 7)))
-    (assert (nearest_gate (pos-x 50) (pos-y 50)))
+    (focus INIT_PUNTEGGI)
 )
 
-(defrule turno1
-    ;(declare (salience 25))
-?f  <- (status (step 1))
-    =>
-    (assert (astar-go))
-    (focus PUNTEGGI)
-)
-
-;-------------- Regole legate al modulo ASTAR ------------------------
-(defrule prova
-    (not(double-check))
-    =>
-    (printout t "STO CAAAZZOOOOOO!" crlf)
-)
-
-;regola per eseguire le azioni trovate da A*, precedentemente ordinate in path
-;questa regola viene attivata solo se è presente il fatto costo-check
-(defrule execute-exec-star2
-        (declare (salience 0))
+(defrule control-time
         (status (step ?s))
-        (costo-check)
-;?f <-	(path (id ?id) (oper ?oper))
-;        (not (path (id ?id2&:(neq ?id ?id2)&:(< ?id2 ?id))))
-?f <-	(path ?id ?oper)
-        (not (path ?id2&:(neq ?id ?id2)&:(< ?id2 ?id)))
-	=>
-        (printout t "Eseguo exec: "?id" " crlf)
-        (assert (exec (action ?oper) (step ?s)))
-        (retract ?f)
+        (not (time_checked ?s))
+    =>
+        (focus TIME)
 )
 
-; regola per attivare A* sul nuovo target:
-; inizializzo i fatti di tipo node, current e lastnode
-(defrule astar-go
-        (declare (salience 0))
-?f1 <-	(astar-go)
+(defrule control-inform
+        (status (step ?s))
+        (not (inform_checked ?s))
+        (time_checked ?s)
+    =>
+        (focus INFORM)
+)
+
+(defrule control-punteggi
+        (status (step ?s))
+        (not (punteggi_checked ?s))
+        (inform_checked ?s)
+    =>
+        (focus PUNTEGGI)
+)
+
+(defrule control-exit
+        (status (step ?s))
+        (not (exit_checked ?s))
+        (punteggi_checked ?s)
+    =>
+        (focus EXIT)
+)
+
+(defrule control-astar
         (status (step ?s))
         (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
-?f2 <-  (dummy_target (pos-x ?x1) (pos-y ?y1))
-		(temporary_target (pos-x ?x2) (pos-y ?y2))
-	=>
+        (temporary_target (pos-x ?x1) (pos-y ?y1))
+?e <-	(exit-found)
+?f <-  	(dummy_target)
+        (not (astar_checked ?s))
+        (exit_checked ?s)
+    =>
+        (retract ?f)
+        (retract ?e)
+        (assert (dummy_target (pos-x ?x1) (pos-y ?y1)))
+        (assert 
+            (node 
+                (ident 0) 
+                (gcost 0) 
+                (fcost (+ (* (+ (abs (- ?x1 ?r)) (abs (- ?y1 ?c))) 10) 5))
+                (father NA) 
+                (pos-r ?r) 
+                (pos-c ?c)
+                (direction north) 
+                (open yes)
+            )
+        )
+    	(assert (current (id 0)))
+    	(assert (lastnode 0))
+		(focus ASTAR)
+)
+
+(defrule move
+        (status (step ?s))
+?f1 <-	(astar_checked ?s)
+?f2 <-	(exit_checked ?s)
+?f3 <-	(punteggi_checked ?s)
+?f4 <-	(inform_checked ?s)
+?f5 <-	(time_checked)
+?f6 <-	(path (id ?id) (oper ?oper))
+        (not (path (id ?id2&:(neq ?id ?id2)&:(< ?id2 ?id))))
+    =>
+        (printout t "Eseguo exec: "?id" " crlf)
+        (assert (exec (action ?oper) (step ?s)))
         (retract ?f1)
         (retract ?f2)
-        (assert (dummy_target (pos-x ?x2) (pos-y ?y2)))
-        ;RICORDARSI DI MODIFICARE direction north IN UNA DIREZIONE PARAMETRICA A SECONDA DI DOVE "INIZIA" l'UAV
-        (assert (node (ident 0) (gcost 0) (fcost (+ (* (+ (abs (- ?x2 ?r)) (abs (- ?y2 ?c))) 10) 5))
-            (father NA) (pos-r ?r) (pos-c ?c) (direction north) (open yes))
-        )
-        (assert (current (id 0)))
-        (assert (lastnode 0))
-        (focus ASTAR)
+        (retract ?f3)
+        (retract ?f4)
+        (retract ?f5)
+        (retract ?f6)		
 )

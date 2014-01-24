@@ -10,8 +10,7 @@
         (not (double-check))
     =>  
         (printout t " Eseguo azione " ?oper " da stato (" ?r "," ?c "), essendo in direzione " ?dir " in nodo "?id" con exec anc:"?anc" - id:"?id" " crlf)
-;        (assert (path (id ?id) (oper ?oper)))
-        (assert (path ?id ?oper))
+        (assert (path (id ?id) (oper ?oper)))
         (assert (last (id ?anc)))
         (retract ?f1)
         (retract ?f2)

@@ -1,0 +1,1 @@
+(defmodule INFORM (import AGENT ?ALL) (export ?ALL))

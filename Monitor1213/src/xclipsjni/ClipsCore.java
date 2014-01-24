@@ -27,7 +27,11 @@ public class ClipsCore {
             String extensionsPath = "extensions" + File.separator + "regolaHalt.clp";
             clips.load(extensionsPath);
             clips.load("6_init_punteggi.clp");
-            clips.load("7_punteggi.clp");
+            clips.load("01_time.clp");
+            clips.load("02_inform.clp");
+            clips.load("03_punteggi.clp");
+            clips.load("04_exit.clp");
+            clips.load("05_astar.clp");
             clips.load("8_a_star.clp");
             clips.load("9_new.clp");
             clips.load("10_post-astar.clp");

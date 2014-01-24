@@ -33,8 +33,8 @@
 
 ;; DA FINIRE
 (defrule check-exit-cost
-    (declare salience 10)
-    (prior cell (pos-r ?x) (pos-c ?y) (type gate))
+    (declare (salience 10))
+    (prior_cell (pos-r ?x) (pos-c ?y) (type gate))
     (costo-check (cost ?g))
     (costo-check (pos-r ?x) (pos-c ?y) (cost ?cost&:(< ?cost ?g)))
 ?f <-(path (target-r ?x) (target-c ?y))
