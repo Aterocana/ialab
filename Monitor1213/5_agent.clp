@@ -136,52 +136,57 @@
 
 (defrule turno0 
     (status (step 0))
+	
     =>
-    (focus INIT_PUNTEGGI)
+	;Da cancellare dopo il completamento di PUNTEGGI
+	(assert (temporary_target (pos-x 7) (pos-y 7)))
+	(assert (dummy_target (pos-x 5) (pos-y 5)))
+	(assert (exec (action go-forward) (step 0)))
+;    (focus INIT_PUNTEGGI)
 )
 
-(defrule control-time
-        (status (step ?s))
-        (not (time_checked ?s))
-    =>
-        (focus TIME)
-)
+;(defrule control-time
+;        (status (step ?s))
+;        (not (time_checked ?s))
+;    =>
+;        (focus TIME)
+;)
 
-(defrule control-inform
-        (status (step ?s))
-        (not (inform_checked ?s))
-        (time_checked ?s)
-    =>
-        (focus INFORM)
-)
+;(defrule control-inform
+;        (status (step ?s))
+;        (not (inform_checked ?s))
+;        (time_checked ?s)
+;    =>
+;        (focus INFORM)
+;)
 
-(defrule control-punteggi
-        (status (step ?s))
-        (not (punteggi_checked ?s))
-        (inform_checked ?s)
-    =>
-        (focus PUNTEGGI)
-)
+;(defrule control-punteggi
+;        (status (step ?s))
+;        (not (punteggi_checked ?s))
+;        (inform_checked ?s)
+;    =>
+;        (focus PUNTEGGI)
+;)
 
-(defrule control-exit
-        (status (step ?s))
-        (not (exit_checked ?s))
-        (punteggi_checked ?s)
-    =>
-        (focus EXIT)
-)
+;(defrule control-exit
+;        (status (step ?s))
+;        (not (exit_checked ?s))
+;        (punteggi_checked ?s)
+;    =>
+;        (focus EXIT)
+;)
 
 (defrule control-astar
         (status (step ?s))
         (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
         (temporary_target (pos-x ?x1) (pos-y ?y1))
-?e <-	(exit-found)
+;?e <-	(exit-found)
 ?f <-  	(dummy_target)
         (not (astar_checked ?s))
-        (exit_checked ?s)
+;        (exit_checked ?s)
     =>
-        (retract ?f)
-        (retract ?e)
+;        (retract ?e)
+		(retract ?f)
         (assert (dummy_target (pos-x ?x1) (pos-y ?y1)))
         (assert 
             (node 
@@ -203,19 +208,19 @@
 (defrule move
         (status (step ?s))
 ?f1 <-	(astar_checked ?s)
-?f2 <-	(exit_checked ?s)
-?f3 <-	(punteggi_checked ?s)
-?f4 <-	(inform_checked ?s)
-?f5 <-	(time_checked)
+;?f2 <-	(exit_checked ?s)
+;?f3 <-	(punteggi_checked ?s)
+;?f4 <-	(inform_checked ?s)
+;?f5 <-	(time_checked)
 ?f6 <-	(path (id ?id) (oper ?oper))
         (not (path (id ?id2&:(neq ?id ?id2)&:(< ?id2 ?id))))
     =>
         (printout t "Eseguo exec: "?id" " crlf)
         (assert (exec (action ?oper) (step ?s)))
         (retract ?f1)
-        (retract ?f2)
-        (retract ?f3)
-        (retract ?f4)
-        (retract ?f5)
+        ;(retract ?f2)
+        ;(retract ?f3)
+        ;(retract ?f4)
+        ;(retract ?f5)
         (retract ?f6)		
 )
