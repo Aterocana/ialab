@@ -25,6 +25,7 @@
 
 (defrule time-ok
     (declare (salience 0))
+    (status (step ?s))
     =>
-    (assert (astar_checked))
+    (assert (astar_checked ?s))
 )

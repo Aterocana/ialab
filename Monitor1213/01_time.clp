@@ -24,7 +24,7 @@
     )
     (assert (current (id 0)))
     (assert (lastnode 0))
-    (focus ASTAR)
+    (focus ASTAR-ALGORTIHM)
 )
 
 ;; controllo se effettivamente è stata trovata un'uscita. Se sì, mi salvo il 
@@ -44,6 +44,7 @@
 
 (defrule time-ok
     (declare (salience 0))
+    (status (step ?s))
     =>
-    (assert (time_checked))
+    (assert (time_checked ?s))
 )

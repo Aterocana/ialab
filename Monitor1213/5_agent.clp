@@ -135,9 +135,9 @@
 ;(assert (exec (action inform) (param1 7) (param2 6) (param3 severe-flood) (step 42)))
 
 (defrule turno0 
-    (status (step 0))
+        (status (step 0))
     =>
-    (focus INIT_PUNTEGGI)
+        (focus INIT_PUNTEGGI)
 )
 
 (defrule control-time
