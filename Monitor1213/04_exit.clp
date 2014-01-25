@@ -2,6 +2,7 @@
 
 (defrule exit-ok
     (declare (salience 0))
+    (status (step ?s))
     =>
-    (assert (exit_checked))
+    (assert (exit_checked ?s))
 )

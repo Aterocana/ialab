@@ -57,6 +57,7 @@
 
 (defrule punteggi-ok
     (declare (salience 0))
+    (status (step ?s))
     =>
-    (assert (punteggi_checked))
+    (assert (punteggi_checked ?s))
 )

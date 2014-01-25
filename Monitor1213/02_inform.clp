@@ -2,6 +2,7 @@
 
 (defrule inform-ok
     (declare (salience 0))
+    (status (step ?s))
     =>
-    (assert (inform_checked))
+    (assert (inform_checked ?s))
 )
