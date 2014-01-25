@@ -36,6 +36,11 @@
     (slot target-r)
     (slot target-c)    
 )
+
+(deftemplate invalid-target
+    (slot pos-r)
+    (slot pos-c)
+)
 ;------------------ Fine delle nostre modifiche --------------------
 
 ;; lo stato globale fornito dal sistema

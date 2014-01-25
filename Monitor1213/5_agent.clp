@@ -78,6 +78,7 @@
 ;;        (modify ?f (result no)))
 
 (defrule exec_act
+    (declare (salience 10))
     (status (step ?i))
     (exec (step ?i))
  => (focus MAIN))

@@ -4,6 +4,7 @@
     (status (step ?s))
     (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
     ?cella <- (score_cell (pos-r ?r) (pos-c ?c) (abs_step ?as&:(neq ?as ?s)))
+    (not (invalid-target (pos-r ?r) (pos-c ?c)))
     =>
     ;; ASSEGNO UN PUNTEGGIO RELATIVO MOLTO BASSO ALLA CELLA SU CUI SONO
     (modify ?cella
@@ -18,6 +19,7 @@
     ;; Escludo la cella attuale per evitare divisioni per zero visto che la distanza Manhattan sarebbe zero.
     (prior_cell (pos-r ?x) (pos-c ?y) (type lake | rural | urban))
     ?cella <- (score_cell (pos-r ?x) (pos-c ?y)(abs_score ?abs_score) (abs_step ?as&:(neq ?as ?s)))
+    (not (invalid-target (pos-r ?r) (pos-c ?c)))
     (test
         (or
             (neq ?x ?r)
