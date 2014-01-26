@@ -180,29 +180,11 @@
 (defrule control-astar
         (status (step ?s))
         (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
-        (temporary_target (pos-x ?x1) (pos-y ?y1))
 ;?e <-	(exit-found)
-?f <-  	(dummy_target)
         (not (astar_checked ?s))
-;        (exit_checked ?s)
+        ; (exit_checked ?s)
     =>
-;        (retract ?e)
-		(retract ?f)
-        (assert (dummy_target (pos-x ?x1) (pos-y ?y1)))
-        (assert 
-            (node 
-                (ident 0) 
-                (gcost 0) 
-                (fcost (+ (* (+ (abs (- ?x1 ?r)) (abs (- ?y1 ?c))) 10) 5))
-                (father NA) 
-                (pos-r ?r) 
-                (pos-c ?c)
-                (direction north) 
-                (open yes)
-            )
-        )
-    	(assert (current (id 0)))
-    	(assert (lastnode 0))
+        ; (retract ?e)
 		(focus ASTAR)
 )
 

@@ -1,4 +1,4 @@
-(defmodule ASTAR-ALGORITHM (import AGENT ?ALL) (export ?ALL))
+(defmodule ASTAR-ALGORITHM (import ASTAR ?ALL) (export ?ALL))
 
 ; ho trovato il nodo target
 ;ALE: asserisco costo-check
