@@ -23,7 +23,7 @@
         )
     )
     (assert (current (id 0)))
-    (assert (lastnode 0))
+    (assert (lastnode (id 0)))
     (focus ASTAR-ALGORTIHM)
 )
 

@@ -1,4 +1,4 @@
-(defmodule ASTAR-ALGORITHM (import ASTAR ?ALL) (export ?ALL))
+(defmodule ASTAR-ALGORITHM (import AGENT ?ALL) (export ?ALL))
 
 ; ho trovato il nodo target
 ;ALE: asserisco costo-check
@@ -48,7 +48,7 @@
 (defrule go-forward-exec-north
         (declare (salience 50))
         (current (id ?curr))
-        (lastnode ?n)
+        (lastnode (id ?n))
 ?f1 <- 	(apply (id ?curr) (op go-forward) (direction north) (pos-x ?r) (pos-y ?c))
         (node (ident ?curr) (gcost ?g))
         ;(goal ?x ?y)
@@ -84,7 +84,7 @@
 (defrule right-exec-north
         (declare (salience 50))
         (current (id ?curr))
-        (lastnode ?n)
+        (lastnode (id ?n))
 ?f1 <- 	(apply (id ?curr) (op go-right) (direction north) (pos-x ?r) (pos-y ?c))
         (node (ident ?curr) (gcost ?g))
         ;(goal ?x ?y)
@@ -113,7 +113,7 @@
 (defrule left-exec-north
         (declare (salience 50))
         (current (id ?curr))
-        (lastnode ?n)
+        (lastnode (id ?n))
 ?f1 <- 	(apply (id ?curr) (op go-left) (direction north) (pos-x ?r) (pos-y ?c))
         (node (ident ?curr) (gcost ?g))
         ;(goal ?x ?y)
@@ -142,7 +142,7 @@
 (defrule go-forward-exec-west
         (declare (salience 50))
         (current (id ?curr))
-        (lastnode ?n)
+        (lastnode (id ?n))
 ?f1 <- 	(apply (id ?curr) (op go-forward) (direction west) (pos-x ?r) (pos-y ?c))
         (node (ident ?curr) (gcost ?g))
         ;(goal ?x ?y)
@@ -171,7 +171,7 @@
 (defrule right-exec-west
         (declare (salience 50))
         (current (id ?curr))
-        (lastnode ?n)
+        (lastnode (id ?n))
 ?f1 <- 	(apply (id ?curr) (op go-right) (direction west) (pos-x ?r) (pos-y ?c))
         (node (ident ?curr) (gcost ?g))
         ;(goal ?x ?y)
@@ -200,7 +200,7 @@
 (defrule left-exec-west
         (declare (salience 50))
         (current (id ?curr))
-        (lastnode ?n)
+        (lastnode (id ?n))
 ?f1 <- 	(apply (id ?curr) (op go-left) (direction west) (pos-x ?r) (pos-y ?c))
         (node (ident ?curr) (gcost ?g))
         ;(goal ?x ?y)
@@ -229,7 +229,7 @@
 (defrule go-forward-exec-east
         (declare (salience 50))
         (current (id ?curr))
-        (lastnode ?n)
+        (lastnode (id ?n))
 ?f1 <- 	(apply (id ?curr) (op go-forward) (direction east) (pos-x ?r) (pos-y ?c))
         (node (ident ?curr) (gcost ?g))
         ;(goal ?x ?y)
@@ -258,7 +258,7 @@
 (defrule right-exec-east
         (declare (salience 50))
         (current (id ?curr))
-        (lastnode ?n)
+        (lastnode (id ?n))
 ?f1 <- 	(apply (id ?curr) (op go-right) (direction east) (pos-x ?r) (pos-y ?c))
         (node (ident ?curr) (gcost ?g))
         ;(goal ?x ?y)
@@ -287,7 +287,7 @@
 (defrule left-exec-east
         (declare (salience 50))
         (current (id ?curr))
-        (lastnode ?n)
+        (lastnode (id ?n))
 ?f1 <- 	(apply (id ?curr) (op go-left) (direction east) (pos-x ?r) (pos-y ?c))
         (node (ident ?curr) (gcost ?g))
         ;(goal ?x ?y)
@@ -317,7 +317,7 @@
 (defrule go-forward-exec-south
         (declare (salience 50))
         (current (id ?curr))
-        (lastnode ?n)
+        (lastnode (id ?n))
 ?f1 <- 	(apply (id ?curr) (op go-forward) (direction south) (pos-x ?r) (pos-y ?c))
         (node (ident ?curr) (gcost ?g))
         ;(goal ?x ?y)
@@ -346,7 +346,7 @@
 (defrule right-exec-south
         (declare (salience 50))
         (current (id ?curr))
-        (lastnode ?n)
+        (lastnode (id ?n))
 ?f1 <- 	(apply (id ?curr) (op go-right) (direction south) (pos-x ?r) (pos-y ?c))
         (node (ident ?curr) (gcost ?g))
         ;(goal ?x ?y)
@@ -375,7 +375,7 @@
 (defrule left-exec-south
         (declare (salience 50))
         (current (id ?curr))
-        (lastnode ?n)
+        (lastnode (id ?n))
 ?f1 <- 	(apply (id ?curr) (op go-left) (direction south) (pos-x ?r) (pos-y ?c))
         (node (ident ?curr) (gcost ?g))
         ;(goal ?x ?y)
@@ -402,10 +402,10 @@
 		?f2 <-   (node (ident ?curr))
 		(node (ident ?best&:(neq ?best ?curr)) (fcost ?bestcost) (open yes))
 		(not (node (ident ?id&:(neq ?id ?curr)) (fcost ?gg&:(< ?gg ?bestcost)) (open yes)))
-		?f3 <-   (lastnode ?last)
+		?f3 <-   (lastnode (id ?last))
 		=>    
 		(assert (current (id ?best))
-                        (lastnode (+ ?last 13))
+                        (lastnode (id (+ ?last 13)))
                 )
 		(retract ?f1 ?f3)
 		(modify ?f2 (open no))

@@ -1,8 +1,39 @@
 (defmodule EXIT (import AGENT ?ALL) (export ?ALL))
 
+(defrule exit-go
+		(declare (salience 100))
+		(status (step ?s))
+		;(perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
+		(prior_cell (pos-r ?x1) (pos-c ?y1) (type gate))
+		(temporary_target (pos-x ?r) (pos-y ?c))
+?f <-  	(dummy_target)
+		(not(costo-check))
+	=>
+		(retract ?f)
+        (assert (dummy_target (pos-x ?x1) (pos-y ?y1)))
+        (assert 
+            (node 
+                (ident 0) 
+                (gcost 0) 
+                (fcost (+ (* (+ (abs (- ?x1 ?r)) (abs (- ?y1 ?c))) 10) 5))
+                (father NA) 
+                (pos-r ?r) 
+                (pos-c ?c)
+                (direction north) 
+                (open yes)
+            )
+        )
+    	(assert (current (id 0)))
+    	(assert (lastnode (id 0)))
+		(focus ASTAR-ALGORITHM)
+)
+
 (defrule exit-ok
-    (declare (salience 0))
-    (status (step ?s))
+		(declare (salience 0))
+		(status (step ?s))
+?f <-	(costo-check)
     =>
-    (assert (exit_checked ?s))
+		(retract ?f)
+		(assert (exit_checked ?s))
+		(pop-focus)
 )

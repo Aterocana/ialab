@@ -28,11 +28,11 @@
     (slot pos-c) (slot direction) (slot open)
 )
 
+(deftemplate current (slot id))
+
 (deftemplate newnode (slot ident) (slot gcost) (slot fcost) (slot father) (slot pos-r)
     (slot pos-c) (slot direction)
 )
-
-(deftemplate current (slot id))
 
 (deftemplate apply
     (slot id) (slot op) (slot direction) (slot pos-x) (slot pos-y)
@@ -42,6 +42,8 @@
 (deftemplate exec-star
     (slot anc) (slot id) (slot op) (slot direction) (slot pos-x) (slot pos-y)
 )
+
+(deftemplate lastnode (slot id))
 
 (deftemplate last (slot id))
 
@@ -169,13 +171,13 @@
 ;        (focus PUNTEGGI)
 ;)
 
-;(defrule control-exit
-;        (status (step ?s))
-;        (not (exit_checked ?s))
-;        (punteggi_checked ?s)
-;    =>
-;        (focus EXIT)
-;)
+; (defrule control-exit
+       ; (status (step ?s))
+       ; (not (exit_checked ?s))
+       ; (punteggi_checked ?s)
+   ; =>
+       ; (focus EXIT)
+; )
 
 (defrule control-astar
         (status (step ?s))
