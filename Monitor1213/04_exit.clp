@@ -9,6 +9,10 @@
 ?f <-  	(dummy_target)
 		(not(costo-check))
 	=>
+	
+		(printout t "Da: ("?r", "?c") " crlf)
+		(printout t "A: ("?x1", "?y1") " crlf)
+	
 		(retract ?f)
         (assert (dummy_target (pos-x ?x1) (pos-y ?y1)))
         (assert 
@@ -28,12 +32,19 @@
 		(focus ASTAR-ALGORITHM)
 )
 
+(defrule exit-clean1
+		(declare (salience 50))
+?f <-	(path)
+	=>
+		(retract ?f)
+)
+
 (defrule exit-ok
 		(declare (salience 0))
 		(status (step ?s))
-?f <-	(costo-check)
+?f1 <-	(costo-check)
     =>
-		(retract ?f)
+		(retract ?f1)
 		(assert (exit_checked ?s))
 		(pop-focus)
 )

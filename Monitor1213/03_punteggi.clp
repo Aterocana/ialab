@@ -5,7 +5,7 @@
     (status (step ?s))
     (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
     ?cella <- (score_cell (pos-r ?r) (pos-c ?c) (abs_step ?as&:(neq ?as ?s)))
-    ;(not (invalid-target (pos-r ?r) (pos-c ?c)))
+    (not (invalid-target (pos-r ?r) (pos-c ?c)))
     =>
     ;; ASSEGNO UN PUNTEGGIO RELATIVO MOLTO BASSO ALLA CELLA SU CUI SONO
     (modify ?cella
@@ -21,7 +21,7 @@
     ;; Escludo la cella attuale per evitare divisioni per zero visto che la distanza Manhattan sarebbe zero.
     (prior_cell (pos-r ?x) (pos-c ?y) (type lake | rural | urban))
     ?cella <- (score_cell (pos-r ?x) (pos-c ?y)(abs_score ?abs_score) (abs_step ?as&:(neq ?as ?s)))
-    ;(not (invalid-target (pos-r ?r) (pos-c ?c)))
+    (not (invalid-target (pos-r ?r) (pos-c ?c)))
     (test
         (or
             (neq ?x ?r)
@@ -45,7 +45,7 @@
 (defrule invalid_target
         (declare (salience 2))
         (invalid-target (pos-r ?r) (pos-c ?c))
-?f <-   (score_cell (pos-r ?r) (pos-c ?c) (abs_score ?abs_score&:(neq ?abs_score -1000)))
+?f <-   (score_cell (pos-r ?r) (pos-c ?c) (rel_score ?rel_score&:(neq ?rel_score -1000)))
     =>
         (retract ?f)
         (assert (score_cell (pos-r ?r) (pos-c ?c) (rel_score -1000)))
@@ -54,7 +54,6 @@
 (defrule best-cell
 	(declare (salience 1))
 ?f <-	(temporary_target (pos-x ?r1) (pos-y ?c1))
-	;(not (astar-go))
 	(score_cell (pos-r ?r1) (pos-c ?c1) (rel_score ?rel&:(neq ?rel nil)))
 	(score_cell (pos-r ?r2) (pos-c ?c2) (rel_score ?best&:(neq ?best nil)))
 	(test (< ?rel ?best))
@@ -63,9 +62,7 @@
 	(retract ?f)
 	(assert (temporary_target (pos-x ?r2) (pos-y ?c2)))
 	(assert (analizzata ?r2 ?c2))
-	;(assert (astar-go))
-	(printout t "Best-cell "?r1" : "?c1" " crlf)
-	(printout t "cella prova "?r2" : "?c2" "?rel" "?best" " crlf)
+	(printout t "Best Cell "?r2" : "?c2" "?rel" "?best" " crlf)
 	(printout t (< ?rel ?best) " " crlf)
 )
 

@@ -138,12 +138,13 @@
 ;(assert (exec (action inform) (param1 7) (param2 6) (param3 severe-flood) (step 42)))
 
 (defrule turno0 
+	(declare (salience 5))
     (status (step 0))
 	
     =>
 	;Da cancellare dopo il completamento di PUNTEGGI
-	(assert (temporary_target (pos-x 7) (pos-y 7)))
-	(assert (dummy_target (pos-x 5) (pos-y 5)))
+	(assert (temporary_target (pos-x 2) (pos-y 5)))
+	(assert (dummy_target (pos-x 2) (pos-y 5)))
 	(assert (exec (action go-forward) (step 0)))
     (focus INIT_PUNTEGGI)
 )
@@ -165,6 +166,7 @@
 
 (defrule control-punteggi
         (status (step ?s))
+		;(perc-vision (step ?s))
         (not (punteggi_checked ?s))
 ;        (inform_checked ?s)
     =>
@@ -183,6 +185,8 @@
         (status (step ?s))
         (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
 ;?e <-	(exit-found)
+		;momentaneo
+		(punteggi_checked ?s)
         (not (astar_checked ?s))
         ; (exit_checked ?s)
     =>

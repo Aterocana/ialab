@@ -7,7 +7,7 @@
 ?f1 <-  (last (id ?id))
         (node (ident ?id) (father ?anc&~NA))  
 ?f2 <-  (exec-star (anc ?anc) (id ?id) (op ?oper) (direction ?dir) (pos-x ?r) (pos-y ?c))
-        (not (double-check))
+        ;(not (double-check))
     =>  
         (printout t " Eseguo azione " ?oper " da stato (" ?r "," ?c "), essendo in direzione " ?dir " in nodo "?id" con exec anc:"?anc" - id:"?id" " crlf)
         (assert (path (id ?id) (oper ?oper)))

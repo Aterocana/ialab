@@ -8,8 +8,12 @@
 		(perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
 		(temporary_target (pos-x ?x1) (pos-y ?y1))
 ?f <-  	(dummy_target)
-		(not(costo-check))
+		(not(costo-check (pos-r ?x1) (pos-c ?y1)))
 	=>
+		
+		(printout t "Da: ("?r", "?c") " crlf)
+		(printout t "A: ("?x1", "?y1") " crlf)
+	
 		(retract ?f)
         (assert (dummy_target (pos-x ?x1) (pos-y ?y1)))
         (assert 
