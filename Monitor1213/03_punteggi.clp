@@ -1,10 +1,11 @@
 (defmodule PUNTEGGI (import AGENT ?ALL) (export ?ALL))
 
 (defrule update_rel_score_current_cell
+    (declare (salience 3))
     (status (step ?s))
     (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
     ?cella <- (score_cell (pos-r ?r) (pos-c ?c) (abs_step ?as&:(neq ?as ?s)))
-    (not (invalid-target (pos-r ?r) (pos-c ?c)))
+    ;(not (invalid-target (pos-r ?r) (pos-c ?c)))
     =>
     ;; ASSEGNO UN PUNTEGGIO RELATIVO MOLTO BASSO ALLA CELLA SU CUI SONO
     (modify ?cella
@@ -14,12 +15,13 @@
 )
 
 (defrule update_rel_score
+    (declare (salience 3))
     (status (step ?s)) ;; mi serve capire quale sia lo step attuale per poter aggiornare solo gli absolute score obsoleti (del passo precedente)
     (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
     ;; Escludo la cella attuale per evitare divisioni per zero visto che la distanza Manhattan sarebbe zero.
     (prior_cell (pos-r ?x) (pos-c ?y) (type lake | rural | urban))
     ?cella <- (score_cell (pos-r ?x) (pos-c ?y)(abs_score ?abs_score) (abs_step ?as&:(neq ?as ?s)))
-    (not (invalid-target (pos-r ?r) (pos-c ?c)))
+    ;(not (invalid-target (pos-r ?r) (pos-c ?c)))
     (test
         (or
             (neq ?x ?r)
@@ -39,8 +41,18 @@
     )
 )
 
+;; contrassegno con un rel_score di -1000 le celle segnalate come invalide, nel caso non sia già stato fatto
+(defrule invalid_target
+        (declare (salience 2))
+        (invalid-target (pos-r ?r) (pos-c ?c))
+?f <-   (score_cell (pos-r ?r) (pos-c ?c) (abs_score ?abs_score&:(neq ?abs_score -1000)))
+    =>
+        (retract ?f)
+        (assert (score_cell (pos-r ?r) (pos-c ?c) (rel_score -1000)))
+)
+
 (defrule best-cell
-	;(declare (salience 50))
+	(declare (salience 1))
 ?f <-	(temporary_target (pos-x ?r1) (pos-y ?c1))
 	;(not (astar-go))
 	(score_cell (pos-r ?r1) (pos-c ?c1) (rel_score ?rel&:(neq ?rel nil)))
@@ -61,5 +73,6 @@
     (declare (salience 0))
     (status (step ?s))
     =>
+    (printout t "Concluso aggiornamento punteggi turno " ?s crlf)
     (assert (punteggi_checked ?s))
 )

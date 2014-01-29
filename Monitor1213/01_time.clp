@@ -2,7 +2,7 @@
 
 ;; Eseguo questa regola per ogni gate. Intendo valutare il costo di 
 ;; raggiungimento dello stesso a partire dalla posizione attuale
-(defrule astar-exit
+(defrule astar-find-exit
     (declare (salience 10))
     (prior_cell (pos-r ?x) (pos-c ?y) (type gate))
     (status (step ?s))

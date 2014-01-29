@@ -145,7 +145,7 @@
 	(assert (temporary_target (pos-x 7) (pos-y 7)))
 	(assert (dummy_target (pos-x 5) (pos-y 5)))
 	(assert (exec (action go-forward) (step 0)))
-;    (focus INIT_PUNTEGGI)
+    (focus INIT_PUNTEGGI)
 )
 
 ;(defrule control-time
@@ -163,13 +163,13 @@
 ;        (focus INFORM)
 ;)
 
-;(defrule control-punteggi
-;        (status (step ?s))
-;        (not (punteggi_checked ?s))
+(defrule control-punteggi
+        (status (step ?s))
+        (not (punteggi_checked ?s))
 ;        (inform_checked ?s)
-;    =>
-;        (focus PUNTEGGI)
-;)
+    =>
+        (focus PUNTEGGI)
+)
 
 ; (defrule control-exit
        ; (status (step ?s))
@@ -186,6 +186,7 @@
         (not (astar_checked ?s))
         ; (exit_checked ?s)
     =>
+        (printout t "control-astar turno " ?s crlf)
         ; (retract ?e)
 		(focus ASTAR)
 )
@@ -194,7 +195,7 @@
         (status (step ?s))
 ?f1 <-	(astar_checked ?s)
 ;?f2 <-	(exit_checked ?s)
-;?f3 <-	(punteggi_checked ?s)
+?f3 <-	(punteggi_checked ?s)
 ;?f4 <-	(inform_checked ?s)
 ;?f5 <-	(time_checked)
 ?f6 <-	(path (id ?id) (oper ?oper))
@@ -204,7 +205,7 @@
         (assert (exec (action ?oper) (step ?s)))
         (retract ?f1)
         ;(retract ?f2)
-        ;(retract ?f3)
+        (retract ?f3)
         ;(retract ?f4)
         ;(retract ?f5)
         (retract ?f6)		
