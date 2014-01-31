@@ -9,7 +9,7 @@
 ?f2 <-  (exec-star (anc ?anc) (id ?id) (op ?oper) (direction ?dir) (pos-x ?r) (pos-y ?c))
         ;(not (double-check))
     =>  
-        (printout t " Eseguo azione " ?oper " da stato (" ?r "," ?c "), essendo in direzione " ?dir " in nodo "?id" con exec anc:"?anc" - id:"?id" " crlf)
+        (printout t " Eseguo azione " ?oper " da cella (" ?r "," ?c ") " crlf)
         (assert (path (id ?id) (oper ?oper)))
         (assert (last (id ?anc)))
         (retract ?f1)
@@ -27,6 +27,13 @@
 (defrule clean-astar2
         (declare (salience 25))
 ?f <-	(exec-star)
+	=>
+        (retract ?f)
+)
+
+(defrule clean-astar3
+        (declare (salience 25))
+?f <-	(last)
 	=>
         (retract ?f)
 )

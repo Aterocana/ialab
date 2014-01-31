@@ -1,5 +1,7 @@
 (defmodule EXIT (import AGENT ?ALL) (export ?ALL))
 
+;Però non sappiamo in che direzione sarà l'UAV.
+;Non possiamo inizializzare node con direction north
 (defrule exit-go
 		(declare (salience 100))
 		(status (step ?s))
@@ -9,10 +11,6 @@
 ?f <-  	(dummy_target)
 		(not(costo-check))
 	=>
-	
-		(printout t "Da: ("?r", "?c") " crlf)
-		(printout t "A: ("?x1", "?y1") " crlf)
-	
 		(retract ?f)
         (assert (dummy_target (pos-x ?x1) (pos-y ?y1)))
         (assert 

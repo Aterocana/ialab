@@ -13,3 +13,4 @@
 (load "8_a_star.clp")
 (load "10_post-astar.clp")
 (reset)
+(batch "C:/Users/Alessandro/Documents/NetBeansProjects/ialab/Monitor1213/ale-break1.bat")

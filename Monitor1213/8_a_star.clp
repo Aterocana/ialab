@@ -422,6 +422,7 @@
          (modify ?f2 (open no))
          (printout t " fail (last  node expanded " ?curr ")" crlf)
          ;(halt)
+		 (focus POSTASTAR)
 )    
 
 (defrule post-astar

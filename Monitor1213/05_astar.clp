@@ -1,11 +1,27 @@
 (defmodule ASTAR (import AGENT ?ALL) (export ?ALL))
 
+(defrule astar-clean1
+		(declare (salience 150))
+?f <-	(lastnode)
+	=>
+		(retract ?f)
+)
+
+(defrule astar-clean2
+		(declare (salience 150))
+		(temporary_target (pos-x ?x1) (pos-y ?y1))
+		(not(costo-check (pos-r ?x1) (pos-c ?y1)))
+?f <-	(path)
+	=>
+		(retract ?f)
+)
+
 ;Regola per far partire A*
 ;in questa regola si può spostare in buona parte il contenuto di contol-astar
 (defrule astar-go
 		(declare (salience 100))
 		(status (step ?s))
-		(perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
+		(perc-vision (step ?s) (pos-r ?r) (pos-c ?c) (direction ?dir))
 		(temporary_target (pos-x ?x1) (pos-y ?y1))
 ?f <-  	(dummy_target)
 		(not(costo-check (pos-r ?x1) (pos-c ?y1)))
@@ -24,7 +40,7 @@
                 (father NA) 
                 (pos-r ?r) 
                 (pos-c ?c)
-                (direction north) 
+                (direction ?dir) 
                 (open yes)
             )
         )

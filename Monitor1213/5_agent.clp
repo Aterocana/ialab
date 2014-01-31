@@ -173,13 +173,13 @@
         (focus PUNTEGGI)
 )
 
-; (defrule control-exit
-       ; (status (step ?s))
-       ; (not (exit_checked ?s))
-       ; (punteggi_checked ?s)
-   ; =>
-       ; (focus EXIT)
-; )
+(defrule control-exit
+       (status (step ?s))
+       (not (exit_checked ?s))
+       (punteggi_checked ?s)
+   =>
+       (focus EXIT)
+)
 
 (defrule control-astar
         (status (step ?s))
@@ -198,17 +198,17 @@
 (defrule move
         (status (step ?s))
 ?f1 <-	(astar_checked ?s)
-;?f2 <-	(exit_checked ?s)
+?f2 <-	(exit_checked ?s)
 ?f3 <-	(punteggi_checked ?s)
 ;?f4 <-	(inform_checked ?s)
 ;?f5 <-	(time_checked)
 ?f6 <-	(path (id ?id) (oper ?oper))
         (not (path (id ?id2&:(neq ?id ?id2)&:(< ?id2 ?id))))
     =>
-        (printout t "Eseguo exec: "?id" " crlf)
+        (printout t "Eseguo exec: "?id", azione: "?oper" " crlf)
         (assert (exec (action ?oper) (step ?s)))
         (retract ?f1)
-        ;(retract ?f2)
+        (retract ?f2)
         (retract ?f3)
         ;(retract ?f4)
         ;(retract ?f5)
