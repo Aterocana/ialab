@@ -15,7 +15,7 @@
     (prior_cell (pos-r ?x) (pos-c ?y) (type border))
     ?cella <- (score_cell (pos-r ?x) (pos-c ?y) (val nil))
     =>
-    (modify ?cella (val -100))
+    (modify ?cella (val -100) (abs_score -1000))
 )
 
 (defrule init_gate_cell
@@ -39,7 +39,7 @@
     (prior_cell (pos-r ?x) (pos-c ?y) (type hill))
     ?cella <- (score_cell (pos-r ?x) (pos-c ?y) (val nil))
     =>
-    (modify ?cella (val -100))
+    (modify ?cella (val -100) (abs_score -1000))
 )
 
 (defrule init_urban_cell
@@ -62,18 +62,18 @@
 (defrule calc_abs_score
     ;;escludo le celle sul perimetro e le celle di tipo hill, perché non è possibile andarci.
     (prior_cell (pos-r ?x) (pos-c ?y) (type lake | rural | urban))
-    ?cella <- (score_cell (pos-r ?x) (val ?v) (abs_score nil))
+    ?cella <- (score_cell (pos-r ?x) (pos-c ?y) (val ?v) (abs_score nil))
 
     ;;recupero i valori nelle 8 celle circostanti
-    (score_cell (pos-r ?x&:(- ?x 1)) (pos-c ?y&:(- ?y 1)) (val ?sw))
-    (score_cell (pos-r ?x&:(- ?x 1)) (pos-c ?y) (val ?s))
-    (score_cell (pos-r ?x&:(- ?x 1)) (pos-c ?y&:(+ ?y 1)) (val ?se))
-    (score_cell (pos-r ?x) (pos-c ?y&:(- ?y 1)) (val ?w))
-    (score_cell (pos-r ?x) (pos-c ?y&:(+ ?y 1)) (val ?e))
-    (score_cell (pos-r ?x&:(+ ?x 1)) (pos-c ?y&:(- ?y 1)) (val ?nw))
-    (score_cell (pos-r ?x&:(+ ?x 1)) (pos-c ?y) (val ?n))
-    (score_cell (pos-r ?x&:(+ ?x 1)) (pos-c ?y&:(+ ?y 1)) (val ?ne))    
+    (score_cell (pos-r =(- ?x 1)) (pos-c =(- ?y 1)) (val ?sw))
+    (score_cell (pos-r =(- ?x 1)) (pos-c ?y) (val ?s))
+    (score_cell (pos-r =(- ?x 1)) (pos-c =(+ ?y 1)) (val ?se))
+    (score_cell (pos-r ?x) (pos-c =(- ?y 1)) (val ?w))
+    (score_cell (pos-r ?x) (pos-c =(+ ?y 1)) (val ?e))
+    (score_cell (pos-r =(+ ?x 1)) (pos-c =(- ?y 1)) (val ?nw))
+    (score_cell (pos-r =(+ ?x 1)) (pos-c ?y) (val ?n))
+    (score_cell (pos-r =(+ ?x 1)) (pos-c =(+ ?y 1)) (val ?ne))    
     =>
-    ;;sommo i valori e li salvo in abs_score. NON HO ANCORA USATO I COEFFICIENTI POSIZIONALI
+    ;;sommo i valori e li salvo in abs_score. NON HO ANCORA USATO I COEFFICIENTI POSIZIONALI    
     (modify ?cella (abs_score (+ ?sw ?s ?se ?w ?v ?e ?nw ?n ?ne)))
 )
