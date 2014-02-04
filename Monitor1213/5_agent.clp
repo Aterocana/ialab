@@ -137,10 +137,10 @@
 ;(assert (exec (action loiter-monitoring) (step 41)))
 ;(assert (exec (action inform) (param1 7) (param2 6) (param3 severe-flood) (step 42)))
 
-(defrule turno0 
+(defrule turno0
 	(declare (salience 5))
     (status (step 0))
-	
+
     =>
 	;Da cancellare dopo il completamento di PUNTEGGI
 	(assert (temporary_target (pos-x 2) (pos-y 5)))
@@ -156,13 +156,13 @@
 ;        (focus TIME)
 ;)
 
-;(defrule control-inform
-;        (status (step ?s))
-;        (not (inform_checked ?s))
-;        (time_checked ?s)
-;    =>
-;        (focus INFORM)
-;)
+(defrule control-inform
+        (status (step ?s))
+        (not (inform_checked ?s))
+        ;(time_checked ?s)
+    =>
+        (focus INFORM)
+)
 
 (defrule control-punteggi
         (status (step ?s))
@@ -212,5 +212,5 @@
         (retract ?f3)
         ;(retract ?f4)
         ;(retract ?f5)
-        (retract ?f6)		
+        (retract ?f6)
 )

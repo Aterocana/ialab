@@ -13,3 +13,4 @@
 (load "8_a_star.clp")
 (load "10_post-astar.clp")
 (reset)
+
