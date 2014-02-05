@@ -7,8 +7,10 @@
     (prior_cell (pos-r ?x) (pos-c ?y) (type gate))
     (status (step ?s))
     (perc-vision (step ?s) (direction ?dir) (pos-r ?r) (pos-c ?c))
-    (not (costo-check (pos-r ?x) (pos-c ?y)))     
+    (not (costo-check (pos-r ?x) (pos-c ?y)))
+?f <- (dummy_target)
     =>
+    (retract ?f)
     (assert (dummy_target (pos-x ?x) (pos-y ?y)))
     (assert 
         (node 
@@ -24,7 +26,7 @@
     )
     (assert (current (id 0)))
     (assert (lastnode (id 0)))
-    (focus ASTAR-ALGORTIHM)
+    (focus ASTAR-ALGORITHM)
 )
 
 
