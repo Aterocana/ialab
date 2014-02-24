@@ -1,18 +1,25 @@
 (defmodule INFORM (import AGENT ?ALL) (export ?ALL))
 
-(defrule inspect
+(defrule inspect-curr
     (declare (salience 50))
     (status (step ?step))
-    (perc-vision (step ?step) (pos-r ?x) (pos-c ?y))
-=>
-    (do-for-all-facts
-        ((?pc prior_cell))
-        (and
-            (<= (- ?x 1) ?pc:pos-r (+ ?x 1))
-            (<= (- ?y 1) ?pc:pos-c (+ ?y 1))
-        )
-        (printout t ?pc:type " " ?pc:pos-r " " ?pc:pos-c crlf)
+    (perc-vision
+        (step ?step) (pos-r ?r) (pos-c ?c)
+        ; percezioni delle celle circostanti
+        (perc5 ?cella)
     )
+    ;(prior_cell (pos-r ?r&:(= ?r (+ ?x 1))) (pos-c ?c&:(= ?c (- ?y 1))) (type urban | rural))
+    (prior_cell (pos-r ?r) (pos-c ?c) (type urban|rural))
+    (not (exec (action inform) (param1 ?r) (param2 ?c)))
+=>
+    (if (= (str-compare ?cella water) 0) then
+        ;(assert (exec (step ?step) (action inform) (param1 ?r) (param2 ?c) (param3 flood)))
+        (printout t "****************" crlf "HO ASSERITO FLOOD IN ("?r","?c")" crlf "****************" crlf)
+    else
+        ;(assert (exec (step ?step) (action inform) (param1 ?r) (param2 ?c) (param3 ok)))
+        (printout t "****************" crlf "HO ASSERITO OK IN ("?r","?c")" crlf "****************" crlf)
+    )
+    ;(printout t "pc pos-r: " ?r " pc pos-c: " ?c crlf)
 )
 
 (defrule inform-ok
