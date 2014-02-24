@@ -53,7 +53,6 @@
     (slot pos-c)
 )
 
-;ALE: gli slot pos-r e pos-c posso essere eliminati se non servono
 (deftemplate costo-check
     (slot pos-r)
     (slot pos-c)
