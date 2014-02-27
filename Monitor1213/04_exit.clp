@@ -8,10 +8,12 @@
 		;(perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
 		(prior_cell (pos-r ?x1) (pos-c ?y1) (type gate))
 		(temporary_target (pos-x ?r) (pos-y ?c))
-?f <-  	(dummy_target)
+?f1 <-  	(dummy_target)
 		(not(costo-check))
+?f2	<-	(last-direction (direction ?dir))
 	=>
-		(retract ?f)
+		(retract ?f1)
+		(retract ?f2)
         (assert (dummy_target (pos-x ?x1) (pos-y ?y1)))
         (assert 
             (node 
@@ -21,7 +23,7 @@
                 (father NA) 
                 (pos-r ?r) 
                 (pos-c ?c)
-                (direction north) 
+                (direction ?dir) 
                 (open yes)
             )
         )

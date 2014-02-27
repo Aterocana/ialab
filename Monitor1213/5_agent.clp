@@ -47,6 +47,8 @@
 
 (deftemplate last (slot id))
 
+(deftemplate last-direction (slot direction))
+
 ;template temporaneo
 (deftemplate visitata
     (slot pos-r)
