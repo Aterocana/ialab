@@ -52,7 +52,7 @@
 )
 
 (defrule best-cell
-	(declare (salience 1))
+	(declare (salience 2))
 ?f <-	(temporary_target (pos-x ?r1) (pos-y ?c1))
 	(score_cell (pos-r ?r1) (pos-c ?c1) (rel_score ?rel&:(neq ?rel nil)))
 	(score_cell (pos-r ?r2) (pos-c ?c2) (rel_score ?best&:(neq ?best nil)))
@@ -62,8 +62,30 @@
 	(retract ?f)
 	(assert (temporary_target (pos-x ?r2) (pos-y ?c2)))
 	(assert (analizzata ?r2 ?c2))
-	(printout t "Best Cell "?r2" : "?c2" "?rel" "?best" " crlf)
+	(printout t "Best Cell: ("?r2", "?c2") - Rel Score: "?best" " crlf)
 	(printout t (< ?rel ?best) " " crlf)
+)
+
+; (defrule best-cell
+		; (declare (salience 2))
+; ?f <-	(temporary_target (pos-x ?r1) (pos-y ?c1))
+		; (score_cell (pos-r ?r1) (pos-c ?c1) (rel_score ?best&:(neq ?best nil)))
+		; (score_cell (pos-r ?r2) (pos-c ?c2) (rel_score ?rel&:(> ?rel ?best)))
+		; (test (< ?rel ?best))
+		(not (analizzata ?r2 ?c2))
+		; =>
+		; (retract ?f)
+		; (assert (temporary_target (pos-x ?r1) (pos-y ?c1)))
+		; (assert (analizzata ?r2 ?c2))
+		; (printout t "Best Cell: ("?r1", "?c1") - Rel Score: "?best" " crlf)
+		; (printout t (< ?rel ?best) " " crlf)
+; )
+
+(defrule best-cell-clean
+		(declare (salience 1))
+?f <-	(analizzata)
+	=>
+		(retract ?f)
 )
 
 (defrule punteggi-ok
