@@ -16,6 +16,14 @@
 		(retract ?f)
 )
 
+(defrule astar-clean3
+		(declare (salience 149))
+?f <-	(path (id ?id) (oper ?oper))
+	=>
+		(assert (path-star (id ?id) (oper ?oper)))
+		(retract ?f)
+)
+
 ;Regola per far partire A*
 ;in questa regola si può spostare in buona parte il contenuto di contol-astar
 (defrule astar-go

@@ -18,7 +18,7 @@
 )
 	  
 	  
-;; ***** LE NOSTRE MODIFICHE *****
+;; ***** LE NOSTRE MODIFICHE - DA SPOSTARE *****
 ;; ho incluso il type al solo scopo di debugging
 (deftemplate score_cell
     (slot pos-r)
@@ -31,6 +31,13 @@
 )
 
 (deftemplate path
+    (slot id)
+    (slot oper)
+    (slot target-r)
+    (slot target-c)    
+)
+
+(deftemplate path-star
     (slot id)
     (slot oper)
     (slot target-r)
