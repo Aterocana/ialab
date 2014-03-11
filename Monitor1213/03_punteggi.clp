@@ -27,7 +27,7 @@
             (neq ?x ?r)
             (neq ?y ?c)
         )
-    )        
+    )
     =>
     ;; MOLTIPLICARE ?abs_score PER 1/DISTANZA (USARE MANHATTAN COME VALORE DI DISTANZA), AGGIORNARE abs_step a ?s
     (modify ?cella
@@ -72,7 +72,7 @@
 		; (score_cell (pos-r ?r1) (pos-c ?c1) (rel_score ?best&:(neq ?best nil)))
 		; (score_cell (pos-r ?r2) (pos-c ?c2) (rel_score ?rel&:(> ?rel ?best)))
 		; (test (< ?rel ?best))
-		(not (analizzata ?r2 ?c2))
+		; (not (analizzata ?r2 ?c2))
 		; =>
 		; (retract ?f)
 		; (assert (temporary_target (pos-x ?r1) (pos-y ?c1)))

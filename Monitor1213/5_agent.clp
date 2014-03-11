@@ -167,9 +167,9 @@
 
 (defrule control-punteggi
         (status (step ?s))
-		;(perc-vision (step ?s))
+        ;(perc-vision (step ?s))
         (not (punteggi_checked ?s))
-;        (inform_checked ?s)
+        (inform_checked ?s)
     =>
         (focus PUNTEGGI)
 )
@@ -189,12 +189,12 @@
 )
 
 (defrule control-exit
-       (status (step ?s))
-	   (astar_checked ?s)
-       (not (exit_checked ?s))
-       (punteggi_checked ?s)
+        (status (step ?s))
+        (astar_checked ?s)
+        (not (exit_checked ?s))
+        (punteggi_checked ?s)
    =>
-       (focus EXIT)
+        (focus EXIT)
 )
 
 (defrule move
