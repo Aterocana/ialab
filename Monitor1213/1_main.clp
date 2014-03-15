@@ -18,37 +18,7 @@
 )
 	  
 	  
-;; ***** LE NOSTRE MODIFICHE - DA SPOSTARE *****
-;; ho incluso il type al solo scopo di debugging
-(deftemplate score_cell
-    (slot pos-r)
-    (slot pos-c)
-    (slot val)
-    (slot abs_score)
-    (slot rel_score)
-    (slot abs_step)
-    (slot type)
-)
 
-(deftemplate path
-    (slot id)
-    (slot oper)
-    (slot target-r)
-    (slot target-c)    
-)
-
-(deftemplate path-star
-    (slot id)
-    (slot oper)
-    (slot target-r)
-    (slot target-c)    
-)
-
-(deftemplate invalid-target
-    (slot pos-r)
-    (slot pos-c)
-)
-;------------------ Fine delle nostre modifiche --------------------
 
 ;; lo stato globale fornito dal sistema
 (deftemplate status (slot step) (slot time) (slot result) )

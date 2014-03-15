@@ -9,6 +9,18 @@
     (slot direction)
 )
 
+(defrule  beginagent
+    (declare (salience 10))
+    (status (step 0))
+    (not (exec (step 0)))
+    (initial_agentstatus (pos-r ?r) (pos-c ?c) (direction ?d))
+  =>
+    (assert (kagent (time 0) (step 0)
+                           (pos-r ?r) (pos-c ?c) (direction ?d)))
+    (focus INIT_PUNTEGGI)
+)
+
+;; ***** NOSTRE MODIFICHE *****
 (deftemplate dummy_target
     (slot pos-x)
     (slot pos-y)
@@ -61,16 +73,36 @@
     (slot cost)
 )
 
-(defrule  beginagent
-    (declare (salience 10))
-    (status (step 0))
-    (not (exec (step 0)))
-    (initial_agentstatus (pos-r ?r) (pos-c ?c) (direction ?d))
-  =>
-    (assert (kagent (time 0) (step 0)
-                           (pos-r ?r) (pos-c ?c) (direction ?d)))
-    (focus INIT_PUNTEGGI)
+;; ho incluso il type al solo scopo di debugging
+(deftemplate score_cell
+    (slot pos-r)
+    (slot pos-c)
+    (slot val)
+    (slot abs_score)
+    (slot rel_score)
+    (slot abs_step)
+    (slot type)
 )
+
+(deftemplate path
+    (slot id)
+    (slot oper)
+    (slot target-r)
+    (slot target-c)    
+)
+
+(deftemplate path-star
+    (slot id)
+    (slot oper)
+    (slot target-r)
+    (slot target-c)    
+)
+
+(deftemplate invalid-target
+    (slot pos-r)
+    (slot pos-c)
+)
+;------------------ Fine delle nostre modifiche --------------------
 
 ;; COMMENTATO PER VEDERLO NELL'INTERFACCIA
 ;;(defrule ask_act
