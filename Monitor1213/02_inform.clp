@@ -25,7 +25,7 @@
             (printout t "Asserisco ok in " ?r ", " ?c crlf)
             (assert (exec (step ?step) (action inform) (param1 ?r) (param2 ?c) (param3 ok)))
         )
-        (assert (must-update-abs-score ?r ?c))
+        (assert (must-update-val ?r ?c))
     )
 )
 
@@ -134,12 +134,17 @@
 ; Regola che aggiorna, dimezzandolo, il valore di una cella dopo la inform
 (defrule update_val
     (declare (salience 2))
-?f <- (must-update-abs-score ?x ?y)
+?f <- (must-update-val ?x ?y)
 ?g <- (score_cell (pos-r ?x) (pos-c ?y) (val ?v))
 =>
     (printout t "Update_val eseguita per cella " ?x ", " ?y crlf)
-    (retract ?f)
+    (retract ?f)    
     (modify ?g (val (/ ?v 2)))
+    (loop-for-count (?i (- ?x 1) (+ ?x 1)) do
+        (loop-for-count (?j (- ?y 1) (+ ?y 1)) do
+            (assert (must-update-abs-score ?i ?j))
+        )
+    )
 )
 
 ; Regola che aggiorna il punteggio assoluo di una cella quando cambiano il suo valore
@@ -159,13 +164,13 @@
 =>
     (modify ?cella (abs_score (+ ?sw ?s ?se ?w ?v ?e ?nw ?n ?ne)))
     (retract ?f)
+    (printout t "Update_abs_score eseguita per cella " ?x ", " ?y crlf)
 )
 
 ; Regola che asserisce la fine di una sessione di inform
 (defrule inform-ok
     (declare (salience 0))
     (status (step ?s))
-=>
-    (printout t "Finito inform" crlf)
+=>    
     (assert (inform_checked ?s))
 )

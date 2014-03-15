@@ -23,7 +23,7 @@
     (prior_cell (pos-r ?x) (pos-c ?y) (type gate))
     ?cella <- (score_cell (pos-r ?x) (pos-c ?y) (val nil))
     =>
-    (modify ?cella (val 0))
+    (modify ?cella (val 0) (abs_score -500))
 )
 
 (defrule init_lake_cell
