@@ -7,7 +7,7 @@
     (current (id ?curr))
     (dummy_target (pos-x ?x) (pos-y ?y))
     (node (ident ?curr) (pos-r ?x) (pos-c ?y) (gcost ?g) (direction ?dir))
-    (not (costo-check))
+    (not (costo-check (pos-r ?x) (pos-c ?y)))
     => 
     (printout t " Esiste soluzione per goal (" ?x "," ?y ") con costo "  ?g crlf)
     (assert (last (id ?curr)))

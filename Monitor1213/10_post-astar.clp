@@ -37,3 +37,11 @@
 	=>
         (retract ?f)
 )
+
+;; Commentata perché già presente nel modulo ASTAR
+; (defrule clean-astar4
+        ; (declare (salience 25))
+; ?f <-	(lastnode)
+	; =>
+        ; (retract ?f)
+; )
