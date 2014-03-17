@@ -20,6 +20,7 @@ public class MonitorModel extends ClipsModel {
     private String result;
     private String communications;
     private int score;
+    private int rel_score;
 
     /**
      * Costruttore del modello per il progetto Monitor
@@ -66,7 +67,7 @@ public class MonitorModel extends ClipsModel {
             }
             //System.out.println("INIZIALIZZATA LA MAPPA");
             DebugFrame.appendText("INIZIALIZZATA LA MAPPA");
-            
+
         } catch (ClipsException ex) {
             //System.out.println("SI E' VERIFICATO UN ERRORE DURANTE L'INIZIALIZZAZIONE: ");
             DebugFrame.appendText("SI E' VERIFICATO UN ERRORE DURANTE L'INIZIALIZZAZIONE: ");
@@ -87,18 +88,29 @@ public class MonitorModel extends ClipsModel {
         //System.out.println("AGGIORNAMENTO MAPPA IN CORSO...");
         DebugFrame.appendText("AGGIORNAMENTO MAPPA IN CORSO...");
         String[] array = {"pos-r", "pos-c", "type", "actual"};
-        String[][] mp;
-        mp = core.findAllFacts("ENV", "actual_cell", "TRUE", array);
+        String[][] mp = core.findAllFacts("ENV", "actual_cell", "TRUE", array);
+
+        String[] slots = {"pos-r", "pos-c", "rel_score"};
+        String[][] a = core.findAllFacts("AGENT", "score_cell", "TRUE", slots);
+
         for (int i = 0; i < mp.length; i++) {
             int r = new Integer(mp[i][0]);
             int c = new Integer(mp[i][1]);
-            // agggiunto underscore per la sovrapposizione dei tag di type e actual
-            map[r - 1][c - 1] = mp[i][2] + "_" + mp[i][3];
+            // aggiunto underscore per la sovrapposizione dei tag di type, actual e rel_score
+            double relScore;
+            try {
+                relScore = Math.round(Double.parseDouble(a[i][2]) * 100) / 100;
+            } catch (NumberFormatException e) {
+                relScore = 0.0;
+            }
+            //System.out.println((Math.round(new Double(a[i][2]) * 100) / 100));
+            map[r - 1][c - 1] = mp[i][2] + "_" + mp[i][3] + "_" + relScore;
         }
         //System.out.println("...RIEMPITA BASE...");
         DebugFrame.appendText("...RIEMPITA BASE...");
         String[] arrayRobot = {"pos-r", "pos-c", "direction", "dur-last-act", "time", "step"};
         String[] robot = core.findFact("ENV", "agentstatus", "TRUE", arrayRobot);
+
         if (robot[0] != null) {
             int r = new Integer(robot[0]);
             int c = new Integer(robot[1]);
