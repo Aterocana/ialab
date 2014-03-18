@@ -1,16 +1,48 @@
 (defmodule TIME (import AGENT ?ALL) (export ?ALL))
 
+(defrule time-clean1
+		(declare (salience 150))
+?f <-	(last-direction)
+	=>
+		(retract ?f)
+)
+
+(defrule time-clean2
+		(declare (salience 150))
+?f <-	(path)
+	=>
+		(retract ?f)
+)
+
+(defrule time-clean3
+		(declare (salience 150))
+?f <-	(lastnode)
+	=>
+		(retract ?f)
+)
+
 ;; Eseguo questa regola per ogni gate. Intendo valutare il costo di 
 ;; raggiungimento dello stesso a partire dalla posizione attuale
+;; PROBLEMA: calcola il percorso solo per il primo gate che matcha
 (defrule astar-find-exit
-    (declare (salience 10))
+    (declare (salience 100))
     (prior_cell (pos-r ?x) (pos-c ?y) (type gate))
     (status (step ?s))
     (perc-vision (step ?s) (direction ?dir) (pos-r ?r) (pos-c ?c))
     (not (costo-check (pos-r ?x) (pos-c ?y)))
+	
+	(not (analizzato ?x ?y ?s))
+	
 ?f <- (dummy_target)
     =>
+	
+	(printout t "Time da ("?r","?c")" crlf)
+	(printout t "Time per ("?x","?y")" crlf)
+	
     (retract ?f)
+	
+	(assert (analizzato ?x ?y ?s))
+	
     (assert (dummy_target (pos-x ?x) (pos-y ?y)))
     (assert 
         (node 

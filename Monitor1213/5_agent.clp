@@ -182,12 +182,12 @@
     (focus INIT_PUNTEGGI)
 )
 
-;(defrule control-time
-;        (status (step ?s))
-;        (not (time_checked ?s))
-;    =>
-;        (focus TIME)
-;)
+(defrule control-time
+       (status (step ?s))
+       (not (time_checked ?s))
+   =>
+       (focus TIME)
+)
 
 (defrule control-inform
         (status (step ?s))
