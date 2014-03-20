@@ -230,6 +230,7 @@
 )
 
 (defrule move
+		(not (hurry))
         (status (step ?s))
 ?f1 <-	(astar_checked ?s)
 ; ?f2 <-	(exit_checked ?s)
@@ -248,3 +249,13 @@
         ;(retract ?f5)
         (retract ?f6)
 )
+
+;se hurry matcha, vengono eseguiti tutti gli step fino al gate
+;in seguito si dovrà definire una regola che asserisca exec(done)
+; (defrule move-to-finish
+		; (hurry)
+		; (status (step ?s))
+		; (perc-vision (step ?s) (perc5 gate))
+		; =>
+		; (assert (exec (action done)))
+; )
