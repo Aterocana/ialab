@@ -90,20 +90,17 @@ public class MonitorModel extends ClipsModel {
         String[] array = {"pos-r", "pos-c", "type", "actual"};
         String[][] mp = core.findAllFacts("ENV", "actual_cell", "TRUE", array);
 
-        String[] slots = {"pos-r", "pos-c", "rel_score"};
-        String[][] a = core.findAllFacts("AGENT", "score_cell", "TRUE", slots);
-
         for (int i = 0; i < mp.length; i++) {
             int r = new Integer(mp[i][0]);
             int c = new Integer(mp[i][1]);
             // aggiunto underscore per la sovrapposizione dei tag di type, actual e rel_score
-            double relScore;
+            String[] slots = {"pos-r", "pos-c", "rel_score"};
+            String[] rs = core.findFact("AGENT", "score_cell", "and (= ?f:pos-r " + r + ") (= ?f:pos-c " + c + ")", slots);
+            double relScore = 0.0;
             try {
-                relScore = Math.round(Double.parseDouble(a[i][2]) * 100) / 100;
+                relScore = Math.floor(Double.parseDouble(rs[2]) * 100) / 100;
             } catch (NumberFormatException e) {
-                relScore = 0.0;
             }
-            //System.out.println((Math.round(new Double(a[i][2]) * 100) / 100));
             map[r - 1][c - 1] = mp[i][2] + "_" + mp[i][3] + "_" + relScore;
         }
         //System.out.println("...RIEMPITA BASE...");
