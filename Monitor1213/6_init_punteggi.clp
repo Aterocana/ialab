@@ -8,8 +8,6 @@
     (assert (score_cell (pos-r ?x) (pos-c ?y) (type ?t)))
 )
 
-;; IL TYPE È INCLUSO A SCOPO DI DEBUGGING, PER QUANTO INUTILE
-;; INIZIALIZZAZIONE
 (defrule init_border_cell
     (declare (salience 1))
     (prior_cell (pos-r ?x) (pos-c ?y) (type border))
@@ -23,7 +21,7 @@
     (prior_cell (pos-r ?x) (pos-c ?y) (type gate))
     ?cella <- (score_cell (pos-r ?x) (pos-c ?y) (val nil))
     =>
-    (modify ?cella (val 0) (abs_score -500))
+    (modify ?cella (val -50) (abs_score -500))
 )
 
 (defrule init_lake_cell
@@ -31,7 +29,7 @@
     (prior_cell (pos-r ?x) (pos-c ?y) (type lake))
     ?cella <- (score_cell (pos-r ?x) (pos-c ?y) (val nil))
     =>
-    (modify ?cella (val 0))
+    (modify ?cella (val -50))
 )
 
 (defrule init_hill_cell

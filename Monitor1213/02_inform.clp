@@ -131,15 +131,22 @@
     (inspect ?r ?c ?step (create$ ?nw ?n ?ne ?w ?cella ?e ?sw ?s ?se))
 )
 
-; Regola che aggiorna, dimezzandolo, il valore di una cella dopo la inform
+; Regola che aggiorna il valore di una cella dopo la inform (di tipo normale):
+; se è una cella di tipo urban il valore viene portato a -20, se è una cella di
+; tipo rural il valore viene portato a -30.
 (defrule update_val
     (declare (salience 2))
 ?f <- (must-update-val ?x ?y)
-?g <- (score_cell (pos-r ?x) (pos-c ?y) (val ?v))
+?g <- (score_cell (pos-r ?x) (pos-c ?y) (val ?v) (type ?type))
 =>
     (printout t "Update_val eseguita per cella " ?x ", " ?y crlf)
-    (retract ?f)    
-    (modify ?g (val (/ ?v 2)))
+    (retract ?f)
+    (if (= (str-compare ?type urban) 0) then
+        (modify ?g (val -20))
+    else
+        (modify ?g (val -30))
+    )
+    ;(modify ?g (val (/ ?v 2)))
     (loop-for-count (?i (- ?x 1) (+ ?x 1)) do
         (loop-for-count (?j (- ?y 1) (+ ?y 1)) do
             (assert (must-update-abs-score ?i ?j))
@@ -147,8 +154,12 @@
     )
 )
 
+; Regola che aggiorna il valore di una cella dopo la "FULL" inform
+;(defrule update_full_val
+;)
+
 ; Regola che aggiorna il punteggio assoluo di una cella quando cambiano il suo valore
-; ed eventualmente quello delle celle circostanti a seguito di esecuzioni di update_val
+; ed eventualmente quello delle celle circostanti a seguito di esecuzioni di update_val o update_full_val
 (defrule update_abs_score
     (declare (salience 1))
 ?f <- (must-update-abs-score ?x ?y)
