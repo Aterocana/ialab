@@ -94,14 +94,17 @@ public class MonitorModel extends ClipsModel {
             int r = new Integer(mp[i][0]);
             int c = new Integer(mp[i][1]);
             // aggiunto underscore per la sovrapposizione dei tag di type, actual e rel_score
-            String[] slots = {"pos-r", "pos-c", "rel_score"};
-            String[] rs = core.findFact("AGENT", "score_cell", "and (= ?f:pos-r " + r + ") (= ?f:pos-c " + c + ")", slots);
+            String[] slots_rs = {"pos-r", "pos-c", "rel_score"};
+            String[] rs = core.findFact("AGENT", "score_cell", "and (= ?f:pos-r " + r + ") (= ?f:pos-c " + c + ")", slots_rs);
+            String[] slots_inf = {"param3"};
+            String inf = core.findFact("MAIN", "exec", "and (= (str-compare ?f:action inform) 0) (= ?f:param1 " + r + ") (= ?f:param2 " + c + ")", slots_inf)[0];
             double relScore = 0.0;
             try {
                 relScore = Math.floor(Double.parseDouble(rs[2]) * 100) / 100;
             } catch (NumberFormatException e) {
             }
-            map[r - 1][c - 1] = mp[i][2] + "_" + mp[i][3] + "_" + relScore;
+            map[r - 1][c - 1] = mp[i][2] + "_" + mp[i][3] + "_" + relScore + "_" + (inf != null);
+            System.out.println(map[r - 1][c - 1]);
         }
         //System.out.println("...RIEMPITA BASE...");
         DebugFrame.appendText("...RIEMPITA BASE...");

@@ -145,7 +145,7 @@ public class MonitorView extends ClipsView implements Observer {
                 map[i][j] = new JLabel(icon, SwingConstants.CENTER);
                 map[i][j].setVerticalTextPosition(JLabel.CENTER);
                 map[i][j].setHorizontalTextPosition(JLabel.CENTER);
-                map[i][j].setForeground(Color.red);
+                //map[i][j].setForeground(Color.red);
                 map[i][j].setToolTipText("(" + (i + 1) + ", " + (j + 1) + ")");
                 mapPanel.add(map[i][j]);
             }
@@ -202,6 +202,7 @@ public class MonitorView extends ClipsView implements Observer {
                 icon = new ImageIcon(image);
                 map[i][j].setIcon(icon);
                 map[i][j].setText(text);
+                map[i][j].setForeground(Boolean.parseBoolean(parts[3]) ? Color.yellow : Color.red);
                 map[i][j].repaint();
             }
         }
