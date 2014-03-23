@@ -94,7 +94,7 @@
     (declare (salience 50))
     (status (step ?step))
     (perc-vision
-        (step ?step) (pos-r ?r) (pos-c ?c) (direction north)
+        (step ?step) (pos-r ?r) (pos-c ?c) (direction south)
         ; percezioni delle celle circostanti
         (perc1 ?se)
         (perc2 ?s)
@@ -115,7 +115,7 @@
     (declare (salience 50))
     (status (step ?step))
     (perc-vision
-        (step ?step) (pos-r ?r) (pos-c ?c) (direction north)
+        (step ?step) (pos-r ?r) (pos-c ?c) (direction west)
         ; percezioni delle celle circostanti
         (perc1 ?sw)
         (perc2 ?w)
