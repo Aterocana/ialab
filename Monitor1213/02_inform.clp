@@ -142,9 +142,9 @@
     (printout t "Update_val eseguita per cella " ?x ", " ?y crlf)
     (retract ?f)
     (if (= (str-compare ?type urban) 0) then
-        (modify ?g (val -20))
+        (modify ?g (val 50))
     else
-        (modify ?g (val -30))
+        (modify ?g (val 40))
     )
     ;(modify ?g (val (/ ?v 2)))
     (loop-for-count (?i (- ?x 1) (+ ?x 1)) do

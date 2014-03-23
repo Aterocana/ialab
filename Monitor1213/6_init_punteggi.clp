@@ -13,7 +13,7 @@
     (prior_cell (pos-r ?x) (pos-c ?y) (type border))
     ?cella <- (score_cell (pos-r ?x) (pos-c ?y) (val nil))
     =>
-    (modify ?cella (val -100) (abs_score -1000))
+    (modify ?cella (val 0) (abs_score -1000))
 )
 
 (defrule init_gate_cell
@@ -21,7 +21,7 @@
     (prior_cell (pos-r ?x) (pos-c ?y) (type gate))
     ?cella <- (score_cell (pos-r ?x) (pos-c ?y) (val nil))
     =>
-    (modify ?cella (val -50) (abs_score -500))
+    (modify ?cella (val 20) (abs_score -500))
 )
 
 (defrule init_lake_cell
@@ -29,7 +29,7 @@
     (prior_cell (pos-r ?x) (pos-c ?y) (type lake))
     ?cella <- (score_cell (pos-r ?x) (pos-c ?y) (val nil))
     =>
-    (modify ?cella (val -50))
+    (modify ?cella (val 20))
 )
 
 (defrule init_hill_cell
@@ -37,7 +37,7 @@
     (prior_cell (pos-r ?x) (pos-c ?y) (type hill))
     ?cella <- (score_cell (pos-r ?x) (pos-c ?y) (val nil))
     =>
-    (modify ?cella (val -100) (abs_score -1000))
+    (modify ?cella (val 0) (abs_score -1000))
 )
 
 (defrule init_urban_cell
@@ -45,7 +45,7 @@
     (prior_cell (pos-r ?x) (pos-c ?y) (type urban))
     ?cella <- (score_cell (pos-r ?x) (pos-c ?y) (val nil))
     =>
-    (modify ?cella (val 100))
+    (modify ?cella (val 400))
 )
 
 (defrule init_rural_cell
@@ -53,7 +53,7 @@
     (prior_cell (pos-r ?x) (pos-c ?y) (type rural))
     ?cella <- (score_cell (pos-r ?x) (pos-c ?y) (val nil))
     =>
-    (modify ?cella (val 50))
+    (modify ?cella (val 300))
 )
 
 ;;CALCOLO DEI VALORI ASSOLUTI
