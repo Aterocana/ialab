@@ -2,8 +2,6 @@ package xclipsjni;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
@@ -12,11 +10,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 import monitor1213.DebugFrame;
 
@@ -51,7 +47,7 @@ class ControlPanel extends JFrame implements Observer {
         Dimension propertyMonitorDim = new Dimension(600, 325);
 
         agendaMonitor = new PropertyMonitor("Agenda");
-        agendaMonitor.setSize(propertyMonitorDim);          
+        agendaMonitor.setSize(propertyMonitorDim);
         agendaMonitor.setLocation(screenDim.width - agendaMonitor.getWidth(), 0);
 
         factsMonitor = new PropertyMonitor("Fatti");
@@ -141,6 +137,7 @@ class ControlPanel extends JFrame implements Observer {
         stepButton = new javax.swing.JButton();
         runOneButton = new javax.swing.JButton();
         visualizeLabel = new javax.swing.JLabel();
+        visualizePunteggiButton = new javax.swing.JCheckBox();
         visualizeAgendaButton = new javax.swing.JCheckBox();
         visualizeFactsButton = new javax.swing.JCheckBox();
         loadCustomFileButton = new javax.swing.JButton();
@@ -156,12 +153,6 @@ class ControlPanel extends JFrame implements Observer {
         controlPanel.setRequestFocusEnabled(false);
 
         loadDefaultFileButton.setText("Default");
-        loadDefaultFileButton.getInputMap(loadDefaultFileButton.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK), "loadDefaultFileButton");
-        loadDefaultFileButton.getActionMap().put("loadDefaultFileButton", new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				loadDefaultFileButtonActionPerformed(e);
-			}
-		});
         loadDefaultFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadDefaultFileButtonActionPerformed(evt);
@@ -175,13 +166,7 @@ class ControlPanel extends JFrame implements Observer {
 
         runButton.setText("Run");
         runButton.setToolTipText("Esegue la Run di Clips");
-        runButton.getInputMap(runButton.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK), "runButton");
         runButton.setEnabled(false);
-        runButton.getActionMap().put("runButton", new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				runButtonActionPerformed(e);
-			}
-		});
         runButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runButtonActionPerformed(evt);
@@ -190,13 +175,7 @@ class ControlPanel extends JFrame implements Observer {
 
         stepButton.setText("Step");
         stepButton.setToolTipText("Esegue Run fino alla prossima azione del Robot");
-        stepButton.getInputMap(stepButton.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK), "stepButton");
         stepButton.setEnabled(false);
-        stepButton.getActionMap().put("stepButton", new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				stepButtonActionPerformed(e);
-			}
-		});
         stepButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stepButtonActionPerformed(evt);
@@ -205,13 +184,7 @@ class ControlPanel extends JFrame implements Observer {
 
         runOneButton.setText("Run(1)");
         runOneButton.setToolTipText("Esegue la Run(1) di Clips");
-        runOneButton.getInputMap(runOneButton.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK), "runOneButton");
         runOneButton.setEnabled(false);
-        runOneButton.getActionMap().put("runOneButton", new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				runOneButtonActionPerformed(e);
-			}
-		});
         runOneButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runOneButtonActionPerformed(evt);
@@ -221,6 +194,15 @@ class ControlPanel extends JFrame implements Observer {
         visualizeLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         visualizeLabel.setText("Visualizza:");
         visualizeLabel.setEnabled(false);
+
+        visualizePunteggiButton.setSelected(true);
+        visualizePunteggiButton.setText("Punteggi");
+        visualizePunteggiButton.setEnabled(false);
+        visualizePunteggiButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                visualizePunteggiButtonActionPerformed(evt);
+            }
+        });
 
         visualizeAgendaButton.setText("Agenda");
         visualizeAgendaButton.setEnabled(false);
@@ -237,14 +219,8 @@ class ControlPanel extends JFrame implements Observer {
                 visualizeFactsButtonActionPerformed(evt);
             }
         });
-		
+
         loadCustomFileButton.setText("Scegli mappe");
-        loadCustomFileButton.getInputMap(loadCustomFileButton.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK), "loadCustomFileButton");
-        loadCustomFileButton.getActionMap().put("loadCustomFileButton", new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				loadCustomFileButtonActionPerformed(e);
-			}
-		});
         loadCustomFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadCustomFileButtonActionPerformed(evt);
@@ -254,12 +230,6 @@ class ControlPanel extends JFrame implements Observer {
         resetButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         resetButton.setForeground(new java.awt.Color(255, 0, 0));
         resetButton.setText("RESET");
-        resetButton.getInputMap(resetButton.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK), "resetButton");
-        resetButton.getActionMap().put("resetButton", new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				resetButtonActionPerformed(e);
-			}
-		});
         resetButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resetButtonActionPerformed(evt);
@@ -273,7 +243,7 @@ class ControlPanel extends JFrame implements Observer {
             .addGroup(controlPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(separator, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
+                    .addComponent(separator, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
                     .addGroup(controlPanelLayout.createSequentialGroup()
                         .addComponent(loadDefaultFileButton)
                         .addGap(4, 4, 4)
@@ -292,6 +262,8 @@ class ControlPanel extends JFrame implements Observer {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(visualizeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(visualizePunteggiButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(visualizeAgendaButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(visualizeFactsButton)))
@@ -306,16 +278,17 @@ class ControlPanel extends JFrame implements Observer {
                     .addComponent(loadFileLabel)
                     .addComponent(loadCustomFileButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(separator, javax.swing.GroupLayout.DEFAULT_SIZE, 10, Short.MAX_VALUE)
+                .addComponent(separator, javax.swing.GroupLayout.DEFAULT_SIZE, 3, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(runButton)
                     .addComponent(runOneButton)
                     .addComponent(stepButton)
                     .addComponent(visualizeFactsButton)
-                    .addComponent(visualizeAgendaButton)
+                    .addComponent(resetButton)
                     .addComponent(visualizeLabel)
-                    .addComponent(resetButton))
+                    .addComponent(visualizePunteggiButton)
+                    .addComponent(visualizeAgendaButton))
                 .addContainerGap())
         );
 
@@ -377,6 +350,7 @@ class ControlPanel extends JFrame implements Observer {
                 visualizeLabel.setEnabled(true);
                 visualizeAgendaButton.setEnabled(true);
                 visualizeFactsButton.setEnabled(true);
+                visualizePunteggiButton.setEnabled(true);
                 model.startCore(initialPath, actualPath);
                 model.execute();
             }
@@ -462,9 +436,15 @@ class ControlPanel extends JFrame implements Observer {
         visualizeLabel.setEnabled(true);
         visualizeAgendaButton.setEnabled(true);
         visualizeFactsButton.setEnabled(true);
+        visualizePunteggiButton.setEnabled(true);
         model.startCore();
         model.execute();
     }//GEN-LAST:event_loadDefaultFileButtonActionPerformed
+
+    private void visualizePunteggiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizePunteggiButtonActionPerformed
+        // TODO add your handling code here:
+        model.showScores = this.visualizePunteggiButton.isSelected();
+    }//GEN-LAST:event_visualizePunteggiButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel controlPanel;
@@ -479,6 +459,7 @@ class ControlPanel extends JFrame implements Observer {
     private javax.swing.JCheckBox visualizeAgendaButton;
     private javax.swing.JCheckBox visualizeFactsButton;
     private javax.swing.JLabel visualizeLabel;
+    private javax.swing.JCheckBox visualizePunteggiButton;
     // End of variables declaration//GEN-END:variables
 
     /**

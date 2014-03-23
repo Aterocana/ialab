@@ -32,7 +32,7 @@ import xclipsjni.ClipsView;
  */
 public class MonitorView extends ClipsView implements Observer {
 
-    private MonitorModel model;
+    private final MonitorModel model;
     private JFrame view;
     private JPanel mapPanelContainer;
     private JPanel mapPanel;
@@ -54,14 +54,12 @@ public class MonitorView extends ClipsView implements Observer {
 
     @Override
     protected void onSetup() {
-        //System.out.println("setupDone");
         DebugFrame.appendText("setupDone");
         initializeMap();
     }
 
     @Override
     protected void onAction() {
-        //System.out.println("actionDone");
         DebugFrame.appendText("actionDone");
         try {
             updateMap();
@@ -73,7 +71,6 @@ public class MonitorView extends ClipsView implements Observer {
 
     @Override
     protected void onDispose() {
-        //System.out.println("disposeDone");
         DebugFrame.appendText("disposeDone");
         String result = model.getResult();
         int score = model.getScore();
@@ -201,12 +198,11 @@ public class MonitorView extends ClipsView implements Observer {
                 image = icon.getImage().getScaledInstance(cellDimension, cellDimension, Image.SCALE_SMOOTH);
                 icon = new ImageIcon(image);
                 map[i][j].setIcon(icon);
-                map[i][j].setText(text);
-                map[i][j].setForeground(Boolean.parseBoolean(parts[3]) ? Color.yellow : Color.red);
+                map[i][j].setText(model.showScores ? text : "");
+                map[i][j].setForeground(Boolean.parseBoolean(parts[3]) ? new Color(38, 133, 26) : Color.red);
                 map[i][j].repaint();
             }
         }
-        //System.out.println("TURNO > " + model.getStep());
         DebugFrame.appendText("TURNO > " + model.getStep());
     }
 

@@ -55,7 +55,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="separator" pref="630" max="32767" attributes="0"/>
+                      <Component id="separator" pref="626" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="loadDefaultFileButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
@@ -75,6 +75,8 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="visualizeLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
+                          <Component id="visualizePunteggiButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="visualizeAgendaButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="visualizeFactsButton" min="-2" max="-2" attributes="0"/>
@@ -87,23 +89,24 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="loadDefaultFileButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="loadFileLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="loadCustomFileButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="separator" pref="3" max="32767" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="separator" pref="10" max="32767" attributes="0"/>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="runButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="runOneButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="stepButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="visualizeFactsButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="visualizeAgendaButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="visualizeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="resetButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="visualizeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="visualizePunteggiButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="visualizeAgendaButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
@@ -168,6 +171,16 @@
             <Property name="text" type="java.lang.String" value="Visualizza:"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="visualizePunteggiButton">
+          <Properties>
+            <Property name="selected" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" value="Punteggi"/>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="visualizePunteggiButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="visualizeAgendaButton">
           <Properties>
