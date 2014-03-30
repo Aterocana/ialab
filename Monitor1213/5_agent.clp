@@ -186,7 +186,7 @@
        (status (step ?s))
        (not (time_checked ?s))
    =>
-       (focus TIME)
+       ;(focus TIME)
 )
 
 (defrule control-inform
