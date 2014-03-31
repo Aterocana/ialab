@@ -183,13 +183,15 @@
 )
 
 (defrule control-time
+		(not (hurry))
        (status (step ?s))
        (not (time_checked ?s))
    =>
-       ;(focus TIME)
+       (focus TIME)
 )
 
 (defrule control-inform
+		(not (hurry))
         (status (step ?s))
         (not (inform_checked ?s))
         ;(time_checked ?s)
@@ -198,6 +200,7 @@
 )
 
 (defrule control-punteggi
+		(not (hurry))
         (status (step ?s))
         ;(perc-vision (step ?s))
         (not (punteggi_checked ?s))
@@ -207,6 +210,7 @@
 )
 
 (defrule control-astar
+		(not (hurry))
         (status (step ?s))
         (perc-vision (step ?s) (pos-r ?r) (pos-c ?c))
 ;?e <-	(exit-found)
@@ -221,6 +225,7 @@
 )
 
 (defrule control-exit
+		(not (hurry))
         (status (step ?s))
         (astar_checked ?s)
         (not (exit_checked ?s))
@@ -252,10 +257,20 @@
 
 ;se hurry matcha, vengono eseguiti tutti gli step fino al gate
 ;in seguito si dovrà definire una regola che asserisca exec(done)
-; (defrule move-to-finish
-		; (hurry)
-		; (status (step ?s))
-		; (perc-vision (step ?s) (perc5 gate))
-		; =>
-		; (assert (exec (action done)))
-; )
+(defrule move-to-finish
+		(declare (salience 1))
+		(hurry)
+		(status (step ?s))
+?f <-	(path-star (id ?id) (oper ?oper))
+        (not (path-star (id ?id2&:(neq ?id ?id2)&:(< ?id2 ?id))))
+		=>
+		(retract ?f)
+		(assert (exec (action ?oper) (step ?s)))
+)
+
+(defrule finish
+		(hurry)
+		(status (step ?s))
+		=>
+		(assert (exec (action done) (step ?s)))
+)
