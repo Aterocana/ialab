@@ -7,8 +7,8 @@
 
 (defrule check-closed
 		(declare (salience 50))
-?f1 <-  (newnode (ident ?id) (pos-r ?r) (pos-c ?c))
-		(node (ident ?old) (pos-r ?r) (pos-c ?c) (open no))
+?f1 <-  (newnode (ident ?id) (pos-r ?r) (pos-c ?c) (direction ?dir))
+		(node (ident ?old) (pos-r ?r) (pos-c ?c) (direction ?dir) (open no))
 		;?f2 <-    (alreadyclosed ?a)
 		=>
 		;(assert (alreadyclosed (+ ?a 1)))
@@ -20,8 +20,8 @@
 
 (defrule check-open-worse
 		(declare (salience 50)) 
-?f1 <-  (newnode (ident ?id) (pos-r ?r) (pos-c ?c) (gcost ?g) (father ?anc))
-		(node (ident ?old) (pos-r ?r) (pos-c ?c) (gcost ?g-old) (open yes))
+?f1 <-  (newnode (ident ?id) (pos-r ?r) (pos-c ?c) (direction ?dir) (gcost ?g) (father ?anc))
+		(node (ident ?old) (pos-r ?r) (pos-c ?c) (direction ?dir) (gcost ?g-old) (open yes))
 		(test (or (> ?g ?g-old) (= ?g-old ?g)))
 		;?f2 <-    (open-worse ?a)
 		=>
@@ -34,12 +34,12 @@
 (defrule check-open-better
 
 		(declare (salience 50)) 
-?f1 <-  (newnode (ident ?id) (pos-r ?r) (pos-c ?c) (gcost ?g) (fcost ?f) (father ?anc))
-?f2 <-  (node (ident ?old) (pos-r ?r) (pos-c ?c) (gcost ?g-old) (open yes))
+?f1 <-  (newnode (ident ?id) (pos-r ?r) (pos-c ?c) (direction ?dir) (gcost ?g) (fcost ?f) (father ?anc))
+?f2 <-  (node (ident ?old) (pos-r ?r) (pos-c ?c) (direction ?dir) (gcost ?g-old) (open yes))
 		(test (<  ?g ?g-old))
 ;?f3 <-  (open-better ?a)
 		=> 
-		(assert (node (ident ?id) (pos-r ?r) (pos-c ?c) (gcost ?g) (fcost ?f) (father ?anc) (open yes)) )
+		(assert (node (ident ?id) (pos-r ?r) (pos-c ?c) (direction ?dir) (gcost ?g) (fcost ?f) (father ?anc) (open yes)) )
 		;(assert (open-better (+ ?a 1)))
 		;(retract ?f1 ?f2 ?f3)
 		(retract ?f1 ?f2)

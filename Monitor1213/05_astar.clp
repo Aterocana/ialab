@@ -25,6 +25,22 @@
 		(retract ?f)
 )
 
+(defrule astar-clean4
+		(declare (salience 149))
+		(not(costo-check))
+?f <-	(last-direction)
+	=>
+		(retract ?f)
+)
+
+(defrule astar-clean5
+		(declare (salience 149))
+		(not(costo-check))
+?f <-	(path-star)
+	=>
+		(retract ?f)
+)
+
 ;; Regola per far partire A*
 ;; in questa regola si può spostare in buona parte il contenuto di contol-astar
 (defrule astar-go
