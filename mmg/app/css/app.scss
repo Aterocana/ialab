@@ -1,0 +1,39 @@
+@import "bootstrap.min.css";
+
+.unselectable {
+    -webkit-user-select: none; /* SAFARI, CHROME */
+    -khtml-user-select: none; /* KONQUEROR */
+    -moz-user-select: none; /* FIREFOX */
+    -ms-user-select: none; /* IE */
+    user-select: none; /* CSS3 */
+    -webkit-user-drag: none; /* SAFARI, CHROME */
+    -khtml-user-drag: none; /* KONQUEROR */
+    -moz-user-drag: none; /* FIREFOX */
+    -ms-user-drag: none; /* IE */
+    user-drag: none; /* CSS3 */
+}
+
+.cell {
+    width: 40px;
+    cursor: pointer;
+    margin: 0px 1px 1px 0px;
+}
+
+#tools .cell {
+    margin: 5px;
+    &.selected {
+        box-shadow: 1px 1px 3px #000;
+    }
+}
+
+#map {
+    text-align: center;
+}
+
+.modal {
+    display: block;
+}
+
+#code {
+    resize: none;
+}

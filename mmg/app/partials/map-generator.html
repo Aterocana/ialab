@@ -1,0 +1,37 @@
+<div class="well clearfix">
+    <div id="tools" class="col-md-2">
+        <!-- Dimensions -->
+        <div class="panel panel-default">
+            <div class="panel-heading"><h3 class="panel-title">Dimensions</h3></div>
+            <div class="panel-body">
+                <label>Width<input type="text" class="form-control" placeholder="Width" ng-model="w"></label>
+                <label>Height<input type="text" class="form-control" placeholder="Height" ng-model="h"></label>
+                <button class="btn btn-primary btn-block" ng-click="generate()">Generate</button>
+            </div>
+        </div>
+        <!-- Palette -->
+        <div class="panel panel-default">
+            <div class="panel-heading"><h3 class="panel-title">Palette</h3></div>
+            <div class="panel-body">
+                <img ng-repeat="type in types"
+                     ng-src="img/{{type}}_ok.jpg"
+                     ng-click="$parent.selectedType = type"
+                     class="cell unselectable"
+                     ng-class="{selected: selectedType == type}"/>
+            </div>
+        </div>
+        <!-- Time input and Export button -->
+        <label>Time<input type="text" class="form-control" placeholder="Time" ng-model="time"></label>
+        <button class="btn btn-primary btn-block" ng-click="export()">Export</button>
+    </div>
+    <div id="map" class="col-md-10">
+        <div ng-repeat="row in map">
+            <img ng-repeat="cell in row"
+                 ng-src="img/{{cell.type}}_ok.jpg"
+                 tooltip="[{{cell.r}}, {{cell.c}}]"
+                 tooltip-animation="false"
+                 ng-click="paint(cell)"
+                 class="cell unselectable"/>
+        </div>
+    </div>
+</div>
