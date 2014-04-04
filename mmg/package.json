@@ -1,7 +1,0 @@
-{
-    "name": "phanes",
-    "description": "A starter project for angular js with some utility js libraries",
-    "scripts": {
-        "start": "node server/server.js & compass watch app/"
-    }
-}
