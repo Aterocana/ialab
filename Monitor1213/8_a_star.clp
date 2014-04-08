@@ -20,7 +20,7 @@
     (current (id ?curr))
     (dummy_target (pos-x ?x) (pos-y ?y))
     (node (ident ?curr) (pos-r ?x) (pos-c ?y) (gcost ?g) (direction ?dir))
-    ?costo <- (costo-check (pos-r ?x) (pos-c ?y) (cost ?cost&:(< ?cost ?g)))
+    ?costo <- (costo-check (pos-r ?x) (pos-c ?y) (cost ?cost&:(> ?cost ?g)))
 	?f <- (last-direction)
     => 
     (printout t " Aggiornata la soluzione per goal (" ?x "," ?y ") con costo "  ?g crlf)
