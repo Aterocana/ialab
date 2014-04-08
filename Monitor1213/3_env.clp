@@ -424,7 +424,7 @@
   ?f2<- (status (step ?i))
         (exec (step ?i) (action  done))
         ; (agentstatus (time ?i) (pos-r ?r) (pos-c ?c))
-		(agentstatus (step ?i) (pos-r ?r) (pos-c ?c))
+        (agentstatus (step ?i) (pos-r ?r) (pos-c ?c))
         (actual_cell (pos-r ?r) (pos-c ?c) (type gate))
         =>
           (modify ?f2 (step (+ ?i 1)) (result done))
