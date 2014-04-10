@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper,12pt]{report}
  
 \usepackage[italian]{babel} % Adatta LaTeX alle convenzioni tipografiche italiane,
 % e ridefinisce alcuni titoli in italiano, come "Capitolo" al posto di "Chapter",
@@ -6,12 +6,26 @@
 
 %\usepackage[T1]{fontenc} % Riga da togliere se si compila con PDFLaTeX
 \usepackage[utf8]{inputenc} % Consente l'uso caratteri accentati italiani
+\usepackage{fancyhdr}
+
+\makeindex
+\linespread{1}
+
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\chaptername}\  \thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ \ #1}{}}
+\fancyhead{}
+\fancyhead[LE]{\slshape \leftmark}
+\fancyhead[RO]{\slshape \rightmark}
+\fancyfoot[EC,OC]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
  
 \title{Relazione progetto IALAB}  
 \author{Andrea Aloi, Maurizio Dominici, Alessandro Serra}
 \date{\today}
  
 \begin{document}
+\pagenumbering{Roman}
 \maketitle
  
 \begin{abstract}
@@ -22,5 +36,13 @@ Illustrazione delle diverse strategie proposte, con una disamina dettagliata dei
 \newpage
  
 \tableofcontents
- 
+\clearpage{\pagestyle{empty}\cleardoublepage}
+
+\pagenumbering{arabic}
+\chapter{Introduzione} \label{cap:intro}
+\input{./introduzione}
+
+\chapter{Stategia di base} \label{cap:base}
+\input{./base}
+
 \end{document}
