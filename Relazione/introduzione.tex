@@ -1,5 +1,5 @@
-Tutte le strategie illustrato in questo documento hanno in comune la struttura.
-Il codice è strutturato in maniera gerarchica, in modo tale che ogni modulo si occupi di un compito particolare da svolgere, il tutto coordinato da una serie di controllori inseriti nel file agent.clp, fornito nello scheletro iniziale del progetto.
+Tutte le strategie illustrate in questo documento hanno in comune la struttura.
+Il codice è strutturato in maniera gerarchica, in modo tale che ogni modulo si occupi di un compito particolare da svolgere, il tutto coordinato da una serie di controllori inseriti nel file {\color{red}agent.clp}, fornito nello scheletro iniziale del progetto.
 \section{Agent} \label{sec:agent}
 Partiamo illustrando il modulo agent: questo modulo, concettualmente, si occupa solo di gestire e coordinare i vari moduli a cui è assegnato un compito specifico. Agent controlla che la condizione di entrata per un modulo sia soddisfatta, quindi dà il focus al modulo in questione attendendo che il lavoro sia svolto. Quando questo modulo rilascerà il focus attraverso una pop, agent avrà a questo punto la possibilità di dare il focus a un altro modulo che svolgerà un altro sottocompito.
 
